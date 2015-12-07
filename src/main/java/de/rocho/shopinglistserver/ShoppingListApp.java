@@ -3,6 +3,7 @@ package de.rocho.shopinglistserver;
 import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
 import com.sun.jersey.api.core.PackagesResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
+import de.rocho.shopinglistserver.resources.TempRessource;
 import org.glassfish.grizzly.http.server.HttpServer;
 
 import javax.ws.rs.core.UriBuilder;
@@ -49,7 +50,7 @@ private static URI getBaseURI(String hostname, int port) {
 
     protected static HttpServer startServer(URI uri) throws IOException {
         System.out.println("Starting grizzly...");
-        ResourceConfig rc = new PackagesResourceConfig("de.rocho.shopinglistserver.resources.TempRessource");
+        ResourceConfig rc = new PackagesResourceConfig("de.rocho.shopinglistserver.resources");
         return GrizzlyServerFactory.createHttpServer(uri, rc);
     }
 
