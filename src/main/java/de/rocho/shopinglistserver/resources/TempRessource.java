@@ -39,6 +39,20 @@ import org.json.JSONObject;
  */
 @Path("/shoppinglist")
 public class TempRessource {
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @JsonIgnoreProperties
+    public String checkRunning(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("running", "ok");
+        } catch (JSONException ex) {
+            Logger.getLogger(TempRessource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return jsonObject.toString();
+    }
 
     /**
      *

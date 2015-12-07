@@ -13,9 +13,12 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 public class ShoppingListApp {
 
-    private final static URI BASE_URI = URI.create("http://192.168.1.106:8080/rest/");
+    private static URI BASE_URI; //= URI.create("http://192.168.1.106:8080/rest/");
 
     public static void main(String args[]) throws IOException {
+        
+        BASE_URI = URI.create("https://shoppingliste.herokuapp.com/rest/");
+        
         Set<Class<?>> s = new HashSet<>();
         
         s.add(TempRessource.class);
