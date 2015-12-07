@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
+import javax.ws.rs.core.UriBuilder;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -23,7 +24,7 @@ public class ShoppingListApp {
             port = "8080";
         }
         //BASE_URI = URI.create("https://shoppingliste.herokuapp.com:"+port+"/rest/");
-        BASE_URI = URI.create("http://0.0.0.0:"+port+"/rest/");
+        BASE_URI =UriBuilder.fromUri("http://0.0.0.0/").port(Integer.valueOf(port)).build(); // URI.create("http://0.0.0.0:"+port+"/rest/");
         
         Set<Class<?>> s = new HashSet<>();
         
