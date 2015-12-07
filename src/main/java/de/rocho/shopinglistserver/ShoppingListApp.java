@@ -17,7 +17,13 @@ public class ShoppingListApp {
 
     public static void main(String args[]) throws IOException {
         
-        BASE_URI = URI.create("https://shoppingliste.herokuapp.com/rest/");
+        String port = System.getenv("PORT");
+        
+        if (port == null || port.isEmpty()) {
+            port = "8080";
+        }
+        //BASE_URI = URI.create("https://shoppingliste.herokuapp.com:"+port+"/rest/");
+        BASE_URI = URI.create("http://localhost:"+port+"/rest/");
         
         Set<Class<?>> s = new HashSet<>();
         
