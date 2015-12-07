@@ -23,7 +23,7 @@ public class ShoppingListApp {
             port = "8080";
         }
         //BASE_URI = URI.create("https://shoppingliste.herokuapp.com:"+port+"/rest/");
-        BASE_URI = URI.create("http://localhost:"+port+"/rest/");
+        BASE_URI = URI.create("http://0.0.0.0:"+port+"/rest/");
         
         Set<Class<?>> s = new HashSet<>();
         
