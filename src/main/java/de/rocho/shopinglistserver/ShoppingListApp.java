@@ -23,6 +23,8 @@ public class ShoppingListApp {
         final HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resConfig);
         httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler(), args);
 
+        
+        
         /*httpServer.start();
 
         System.out.println("Server started on: http://localhost:8080/rest/");
