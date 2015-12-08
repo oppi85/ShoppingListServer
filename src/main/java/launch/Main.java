@@ -20,8 +20,9 @@ public class Main {
     public static void main(String args[]) throws IOException, URISyntaxException {
         HashMap<String, String> persistenceMap = new HashMap<>();
         URI BASE_URI;
-        ResourceConfig resConfig = new ResourceConfig(de.rocho.shopinglistserver.resources.ShoppingListRessource.class);
+        ResourceConfig resConfig = new ResourceConfig().packages("de.rocho.shopinglistserver.resources");
         final int port = System.getenv("PORT") != null ? Integer.valueOf(System.getenv("PORT")) : 8080;
+        
         if(port == 8080){
             BASE_URI= URI.create("http://192.168.1.106:8080/rest/");
         }else{
