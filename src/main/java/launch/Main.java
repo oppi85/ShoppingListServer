@@ -12,7 +12,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 
-public class ShoppingListApp {
+public class Main {
 
     public static void main(String args[]) throws IOException {
         Set<Class<?>> rc = new HashSet<Class<?>>(); 
