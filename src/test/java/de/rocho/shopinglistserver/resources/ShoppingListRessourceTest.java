@@ -12,9 +12,9 @@ import junit.framework.TestCase;
  *
  * @author Sven
  */
-public class TempRessourceTest extends TestCase {
+public class ShoppingListRessourceTest extends TestCase {
     
-    public TempRessourceTest(String testName) {
+    public ShoppingListRessourceTest(String testName) {
         super(testName);
     }
     

@@ -38,20 +38,13 @@ import org.json.JSONObject;
  * @author Sven
  */
 @Path("/shoppinglist")
-public class TempRessource {
+public class ShoppingListRessource {
     
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @JsonIgnoreProperties
+    @Produces(MediaType.TEXT_PLAIN)
     public String checkRunning(){
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("running", "ok");
-        } catch (JSONException ex) {
-            Logger.getLogger(TempRessource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return jsonObject.toString();
+       
+        return "Server läuft";
     }
 
     /**
@@ -151,7 +144,7 @@ public class TempRessource {
         try {
             ob.put("Response", response.toJson());
         } catch (JSONException ex) {
-            Logger.getLogger(TempRessource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println(ob.toString());
         return ob.toString();
@@ -198,7 +191,7 @@ public class TempRessource {
                     break;
             }
         } catch (JSONException ex) {
-            Logger.getLogger(TempRessource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
         }
         return JSONObject.toString();
     }
@@ -219,7 +212,7 @@ public class TempRessource {
         try {
             JSONObject.put("Response", response.toJson());
         } catch (JSONException ex) {
-            Logger.getLogger(TempRessource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println(JSONObject.toString());
         return JSONObject.toString();
@@ -294,7 +287,7 @@ public class TempRessource {
                     break;
             }
         } catch (JSONException ex) {
-            Logger.getLogger(TempRessource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
         }
         return JSONObject.toString();
     }
@@ -426,7 +419,7 @@ public class TempRessource {
             }
             JSONObjectArticlelist.put("Shoppinglist", JSONArrayShoppingList);
         } catch (JSONException ex) {
-            Logger.getLogger(TempRessource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println(JSONObjectArticlelist.toString());
         return JSONObjectArticlelist.toString();

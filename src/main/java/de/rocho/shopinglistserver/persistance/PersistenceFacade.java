@@ -1,6 +1,7 @@
 package de.rocho.shopinglistserver.persistance;
 
 import de.rocho.shopinglistserver.MyJSONObject;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -8,12 +9,17 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import org.json.JSONException;
 
 public class PersistenceFacade {
 
-    private static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("ShoppingListPU");
+    EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("ShoppingListPU"); 
     private static final Logger log = Logger.getLogger( PersistenceFacade.class.getName() );
+
+    public void createPU(HashMap<String, String> persistenceMap){
+        if(persistenceMap != null)
+            FACTORY = Persistence.createEntityManagerFactory("ShoppingListPU" , persistenceMap);
+        
+    }
     
      public Boolean checkAccess(MyJSONObject myJsonObject){
         EntityManager em = FACTORY.createEntityManager();
