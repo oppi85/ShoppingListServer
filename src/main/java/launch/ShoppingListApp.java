@@ -1,6 +1,5 @@
 package launch;
 
-import de.rocho.shopinglistserver.resources.TempRessource;
 import org.glassfish.grizzly.http.server.HttpServer;
 
 import javax.ws.rs.core.UriBuilder;
@@ -18,7 +17,7 @@ public class ShoppingListApp {
     public static void main(String args[]) throws IOException {
         Set<Class<?>> rc = new HashSet<Class<?>>(); 
         rc.add(de.rocho.shopinglistserver.resources.TempRessource.class);
-        ResourceConfig resConfig = new ResourceConfig(rc);
+        ResourceConfig resConfig = new ResourceConfig(de.rocho.shopinglistserver.resources.TempRessource.class);
         
         final int port = System.getenv("PORT") != null ? Integer.valueOf(System.getenv("PORT")) : 8080;
         //final URI BASE_URI= URI.create("http://192.168.1.106:8080/rest/");
