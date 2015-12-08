@@ -28,7 +28,7 @@ public class ShoppingListApp {
         httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler(), args);
 
         
-        
+        /*
         httpServer.start();
 
         System.out.println("Server started on: http://localhost:8080/rest/");
@@ -36,5 +36,7 @@ public class ShoppingListApp {
         
         System.in.read();
         httpServer.stop();
+                
+                */
     }
 }
