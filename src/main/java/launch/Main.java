@@ -25,15 +25,19 @@ public class Main {
         
         HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resConfig);
         httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler(), args);
-
         
-        /*
         httpServer.start();
+        
+        while(true){
+            System.in.read();
+        }
+        /*
+        
 
         System.out.println("Server started on: http://localhost:8080/rest/");
         System.out.println("Type <ENTER> to exit");
         
-        System.in.read();
+        
         httpServer.stop();
                 
                 */
