@@ -2,14 +2,13 @@ package launch;
 
 import de.rocho.shopinglistserver.persistance.PersistenceFacade;
 import org.glassfish.grizzly.http.server.HttpServer;
+import de.rocho.shopinglistserver.resources.ShoppingListRessource;
 
 import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -20,7 +19,7 @@ public class Main {
     public static void main(String args[]) throws IOException, URISyntaxException {
         HashMap<String, String> persistenceMap = new HashMap<>();
         URI BASE_URI;
-        ResourceConfig resConfig = new ResourceConfig().packages("de.rocho.shopinglistserver.resources");
+        ResourceConfig resConfig = new ResourceConfig(ShoppingListRessource.class);
         final int port = System.getenv("PORT") != null ? Integer.valueOf(System.getenv("PORT")) : 8080;
         
         if(port == 8080){
