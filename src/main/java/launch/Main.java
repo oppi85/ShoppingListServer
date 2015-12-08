@@ -42,7 +42,7 @@ public class Main {
         final URI BASE_URI = UriBuilder.fromUri("http://0.0.0.0/").port(port).build(); 
         
         HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resConfig);
-        httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler(), args);
+        httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler("C:\\tmp\\"), "/test");
         
         httpServer.start();
         System.out.println("Server started on: " + BASE_URI);
