@@ -43,10 +43,10 @@ public class Main {
         }
         
         
-        HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resConfig);
+        /*HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resConfig);
         httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler(), "/test");
         
-        httpServer.start();
+        httpServer.start();*/
         System.out.println("Server started on: " + BASE_URI);
         while(true){
             System.in.read();
