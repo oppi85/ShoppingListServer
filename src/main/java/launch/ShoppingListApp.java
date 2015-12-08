@@ -17,7 +17,7 @@ public class ShoppingListApp {
 
     public static void main(String args[]) throws IOException {
         Set<Class<?>> rc = new HashSet<Class<?>>(); 
-        rc.add(TempRessource.class);
+        rc.add(de.rocho.shopinglistserver.resources.TempRessource.class);
         ResourceConfig resConfig = new ResourceConfig(rc);
         
         final int port = System.getenv("PORT") != null ? Integer.valueOf(System.getenv("PORT")) : 8080;
