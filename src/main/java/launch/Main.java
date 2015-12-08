@@ -19,7 +19,7 @@ public class Main {
     public static void main(String args[]) throws IOException, URISyntaxException {
         HashMap<String, String> persistenceMap = new HashMap<>();
         URI BASE_URI;
-        ResourceConfig resConfig =null;// = new ResourceConfig(ShoppingListRessource.class);
+        ResourceConfig resConfig = new ResourceConfig(ShoppingListRessource.class);
         final int port = System.getenv("PORT") != null ? Integer.valueOf(System.getenv("PORT")) : 8080;
         
         if(port == 8080){
@@ -43,10 +43,10 @@ public class Main {
         }
         
         
-        /*HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resConfig);
+        HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resConfig);
         httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler(), "/test");
         
-        httpServer.start();*/
+        httpServer.start();
         System.out.println("Server started on: " + BASE_URI);
         while(true){
             System.in.read();
