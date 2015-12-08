@@ -106,8 +106,7 @@
             <configuration>
                 <programs>
                     <program>
-                        <mainClass>ShoppingListApp</mainClass>
-                        <name>shoppinglistapp</name>
+                        <mainClass>launch.Main</mainClass>
                     </program>
                 </programs>
               <transformers>
