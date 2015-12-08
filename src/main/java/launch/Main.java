@@ -19,9 +19,15 @@ public class Main {
 
     public static void main(String args[]) throws IOException, URISyntaxException {
         HashMap<String, String> persistenceMap = new HashMap<>();
-        
+        URI BASE_URI;
         ResourceConfig resConfig = new ResourceConfig(de.rocho.shopinglistserver.resources.ShoppingListRessource.class);
-
+        final int port = System.getenv("PORT") != null ? Integer.valueOf(System.getenv("PORT")) : 8080;
+        if(port == 8080){
+            BASE_URI= URI.create("http://192.168.1.106:8080/rest/");
+        }else{
+            BASE_URI = UriBuilder.fromUri("http://0.0.0.0/").port(port).build();
+        }
+        
         if (System.getenv("DATABASE_URL") != null){
             URI dbUri = new URI(System.getenv("DATABASE_URL"));
             String username = dbUri.getUserInfo().split(":")[0];
@@ -36,13 +42,9 @@ public class Main {
             pf.createPU(persistenceMap);
         }
         
-        final int port = System.getenv("PORT") != null ? Integer.valueOf(System.getenv("PORT")) : 8080;
-        
-        //final URI BASE_URI= URI.create("http://192.168.1.106:8080/rest/");
-        final URI BASE_URI = UriBuilder.fromUri("http://0.0.0.0/").port(port).build(); 
         
         HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resConfig);
-        httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler("C:\\tmp\\"), "/test");
+        httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler(), "/test");
         
         httpServer.start();
         System.out.println("Server started on: " + BASE_URI);
