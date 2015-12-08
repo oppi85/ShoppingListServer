@@ -1,1 +1,1 @@
-web:    sh target/classes:target/dependency/* de.rocho.shopinglistserver.ShoppingListApp
+web:    java -cp target/classes:target/dependency/* de.rocho.shopinglistserver.ShoppingListApp
