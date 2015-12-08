@@ -2,8 +2,6 @@ package de.rocho.shopinglistserver.persistance;
 
 import de.rocho.shopinglistserver.MyJSONObject;
 import java.util.List;
-import java.util.function.Supplier;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
