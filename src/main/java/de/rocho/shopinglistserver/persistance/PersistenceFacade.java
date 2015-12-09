@@ -43,7 +43,7 @@ public class PersistenceFacade {
         Boolean access = false;
         String type = myJsonObject.getType();
         AppUser databaseUser;
-        Query query = em.createQuery("SELECT u FROM User u WHERE u.id='"+myJsonObject.getUserID()+"'");
+        Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.id='"+myJsonObject.getUserID()+"'");
         try{
             databaseUser = (AppUser) query.getSingleResult();
         
@@ -167,7 +167,7 @@ public class PersistenceFacade {
          */
         
         try{
-            query = em.createQuery("SELECT u FROM User u WHERE u.name='"+newUser.getName()+"'");
+            query = em.createQuery("SELECT u FROM AppUser u WHERE u.name='"+newUser.getName()+"'");
             AppUser user = (AppUser) query.getSingleResult();
             String userName = newUser.getName()+ "+" + user.getId();
             newUser.setName(userName);
@@ -180,7 +180,7 @@ public class PersistenceFacade {
             em.persist(newUser);
             tx.commit();
             
-            query = em.createQuery("SELECT u FROM User u WHERE u.privateKey='"+newUser.getPrivateKey()+"'");
+            query = em.createQuery("SELECT u FROM AppUser u WHERE u.privateKey='"+newUser.getPrivateKey()+"'");
             tmpUser = (AppUser) query.getSingleResult();
         } catch (Exception e) {
             return tmpUser;
@@ -191,7 +191,7 @@ public class PersistenceFacade {
     public AppUser findUser(String publicKey) {
         EntityManager em = FACTORY.createEntityManager();
         
-        Query query = em.createQuery("SELECT u from User u WHERE u.publicKey='" + publicKey + "'");
+        Query query = em.createQuery("SELECT u from AppUser u WHERE u.publicKey='" + publicKey + "'");
         AppUser user = (AppUser) query.getSingleResult();
         
         return user;
@@ -199,7 +199,7 @@ public class PersistenceFacade {
 
     public List<AppUser> findAllUser() {
         EntityManager entityManager = FACTORY.createEntityManager();
-        Query query = entityManager.createQuery("SELECT u from User u");
+        Query query = entityManager.createQuery("SELECT u from AppUser u");
         List<AppUser> userList = query.getResultList();
 
         return userList;
@@ -210,7 +210,7 @@ public class PersistenceFacade {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         AppUser user = myJsonObject.getUser();
-        Query query = em.createQuery("SELECT u from User u WHERE u.id='" + user.getId() + "'");
+        Query query = em.createQuery("SELECT u from AppUser u WHERE u.id='" + user.getId() + "'");
         AppUser tempUser = (AppUser) query.getSingleResult();
             
         if (user.getName() != null) {
@@ -245,7 +245,7 @@ public class PersistenceFacade {
     public ShoppingList createShoppingList(ShoppingList shoppingList) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        Query query = em.createQuery("SELECT u from User u WHERE u.id='" + shoppingList.getUserList().get(0).getId() + "'");
+        Query query = em.createQuery("SELECT u from AppUser u WHERE u.id='" + shoppingList.getUserList().get(0).getId() + "'");
         AppUser user = (AppUser) query.getSingleResult();
         
         ShoppingList sl = shoppingList;
@@ -275,7 +275,7 @@ public class PersistenceFacade {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         ShoppingList shoppingList = myJsonObject.getShoppingList();
-        Query query = em.createQuery("SELECT u FROM User u WHERE u.publicKey'" + shoppingList.getUserList().get(0).getPublicKey() + "'");
+        Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.publicKey'" + shoppingList.getUserList().get(0).getPublicKey() + "'");
         ShoppingList sl = findShoppingList(shoppingList.getId());
         AppUser user = (AppUser) query.getSingleResult();
         try {
