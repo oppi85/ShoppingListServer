@@ -19,7 +19,7 @@ public class PersistenceFacade {
     EntityManagerFactory FACTORY = createEntityManagerFactory();
    
     public EntityManagerFactory createEntityManagerFactory(){
-        
+        System.out.println("CREATE ENTITY MANAGER FACTORY: " + dbHelper.getDbUri().toString());
         if(dbHelper.getDbUri() != null){
             HashMap<String, String> persistenceMap = new HashMap<>();
             String username = dbHelper.getDbUri().getUserInfo().split(":")[0];
