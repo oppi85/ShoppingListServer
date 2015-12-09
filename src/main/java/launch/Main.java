@@ -16,9 +16,10 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 
 public class Main {
+    public static DbHelper dbHelper = new DbHelper();
 
     public static void main(String args[]) throws IOException, URISyntaxException {
-        DbHelper dbHelper = new DbHelper();
+        
         URI BASE_URI = URI.create("http://localhost:8080/rest/");
         Set<Class<?>> s = new HashSet<>();
         s.add(ShoppingListRessource.class);

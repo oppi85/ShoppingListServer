@@ -11,10 +11,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import launch.Main;
 
 public class PersistenceFacade {
 
-    DbHelper dbHelper;
+    DbHelper dbHelper = Main.dbHelper;
     private static final Logger log = Logger.getLogger( PersistenceFacade.class.getName() );
     EntityManagerFactory FACTORY = createEntityManagerFactory();
    
