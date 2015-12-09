@@ -13,7 +13,7 @@ import java.net.URI;
  */
 public class DbHelper {
     
-    URI dbUri = null;
+    URI dbUri;
 
     public URI getDbUri() {
         return dbUri;
