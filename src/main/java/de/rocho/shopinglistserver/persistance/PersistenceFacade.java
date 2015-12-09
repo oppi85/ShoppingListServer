@@ -1,6 +1,8 @@
 package de.rocho.shopinglistserver.persistance;
 
+import de.rocho.shopinglistserver.DbHelper;
 import de.rocho.shopinglistserver.MyJSONObject;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -12,13 +14,28 @@ import javax.persistence.Query;
 
 public class PersistenceFacade {
 
-    EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("ShoppingListPU"); 
+    DbHelper dbHelper = new DbHelper();
     private static final Logger log = Logger.getLogger( PersistenceFacade.class.getName() );
-
-    public void createPU(HashMap<String, String> persistenceMap){
-        if(persistenceMap != null)
-            FACTORY = Persistence.createEntityManagerFactory("ShoppingListPU" , persistenceMap);
+    EntityManagerFactory FACTORY = createEntityManagerFactory();
+   
+    public EntityManagerFactory createEntityManagerFactory(){
         
+        if(dbHelper.getDbUri() != null){
+            HashMap<String, String> persistenceMap = new HashMap<>();
+            String username = dbHelper.getDbUri().getUserInfo().split(":")[0];
+            String password = dbHelper.getDbUri().getUserInfo().split(":")[1];
+            String dbUrl = "jdbc:postgresql://" + dbHelper.getDbUri().getHost() + ':' + dbHelper.getDbUri().getPort() + dbHelper.getDbUri().getPath();
+
+            persistenceMap.put("javax.persistence.jdbc.url", dbUrl);
+            persistenceMap.put("javax.persistence.jdbc.user", username);
+            persistenceMap.put("javax.persistence.jdbc.password", password);
+            persistenceMap.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
+            
+            return Persistence.createEntityManagerFactory("ShoppingListPU", persistenceMap);
+        }else{
+            return Persistence.createEntityManagerFactory("ShoppingListPU");
+        }
+            
     }
     
      public Boolean checkAccess(MyJSONObject myJsonObject){
