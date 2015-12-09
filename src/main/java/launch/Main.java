@@ -14,9 +14,8 @@ import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-
 public class Main {
-    public static DbHelper dbHelper = new DbHelper();
+    public static  URI dbUri;
 
     public static void main(String args[]) throws IOException, URISyntaxException {
         
@@ -29,11 +28,10 @@ public class Main {
         if(port != 8080)
             BASE_URI = UriBuilder.fromUri("http://0.0.0.0/").port(port).build();
                        
-        URI dbUri = System.getenv("DATABASE_URL") !=null ? new URI(System.getenv("DATABASE_URL")) : null;
-        System.out.println("MAIN: Database URL. " + System.getenv("DATABASE_URL") + " :: " + dbUri.toString());
-        dbHelper.setDbUri(dbUri);
-        System.out.println("MAIN: " + dbHelper.getDbUri());
+        dbUri = System.getenv("DATABASE_URL") !=null ? new URI(System.getenv("DATABASE_URL")) : null;
         
+        System.out.println("MAIN: Database URL. " + System.getenv("DATABASE_URL") + " :: " + dbUri);
+      
         HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resConfig);
         httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler(), "/test");
         
@@ -42,15 +40,6 @@ public class Main {
         while(true){
             System.in.read();
         }
-        /*
-        
-
-        
-        System.out.println("Type <ENTER> to exit");
-        
-        
-        httpServer.stop();
-                
-                */
+       
     }
 }

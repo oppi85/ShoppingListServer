@@ -1,6 +1,5 @@
 package de.rocho.shopinglistserver.persistance;
 
-import de.rocho.shopinglistserver.DbHelper;
 import de.rocho.shopinglistserver.MyJSONObject;
 import java.net.URI;
 import java.util.HashMap;
@@ -15,17 +14,17 @@ import launch.Main;
 
 public class PersistenceFacade {
 
-    DbHelper dbHelper = Main.dbHelper;
+    URI dbUri = Main.dbUri;
     private static final Logger log = Logger.getLogger( PersistenceFacade.class.getName() );
     EntityManagerFactory FACTORY = createEntityManagerFactory();
    
     public EntityManagerFactory createEntityManagerFactory(){
-        System.out.println("CREATE ENTITY MANAGER FACTORY: " + dbHelper.getDbUri().toString());
-        if(dbHelper.getDbUri() != null){
+        System.out.println("CREATE ENTITY MANAGER FACTORY: " + dbUri.toString());
+        if(dbUri != null){
             HashMap<String, String> persistenceMap = new HashMap<>();
-            String username = dbHelper.getDbUri().getUserInfo().split(":")[0];
-            String password = dbHelper.getDbUri().getUserInfo().split(":")[1];
-            String dbUrl = "jdbc:postgresql://" + dbHelper.getDbUri().getHost() + ':' + dbHelper.getDbUri().getPort() + dbHelper.getDbUri().getPath();
+            String username = dbUri.getUserInfo().split(":")[0];
+            String password = dbUri.getUserInfo().split(":")[1];
+            String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 
             persistenceMap.put("javax.persistence.jdbc.url", dbUrl);
             persistenceMap.put("javax.persistence.jdbc.user", username);
