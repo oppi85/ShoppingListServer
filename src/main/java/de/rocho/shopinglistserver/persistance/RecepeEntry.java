@@ -17,7 +17,7 @@ public class RecepeEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="stacjatv_id_seq", strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

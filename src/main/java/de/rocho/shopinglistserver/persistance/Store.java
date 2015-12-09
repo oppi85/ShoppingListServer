@@ -15,7 +15,7 @@ public class Store implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator="stacjatv_id_seq", strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne

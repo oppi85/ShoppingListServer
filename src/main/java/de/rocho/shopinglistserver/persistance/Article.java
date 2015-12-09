@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.json.JSONException;
@@ -18,17 +19,20 @@ public class Article implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="stacjatv_id_seq", strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String name;
     private String unit;
 
     @OneToMany(mappedBy = "article",cascade = CascadeType.REMOVE)
+    @JoinColumn(nullable = true)
     private List<ListEntry> listEntrys;
     @OneToMany(mappedBy = "article")
+    @JoinColumn(nullable = true)
     private List<RecepeEntry> recepeEntrys;
     @OneToOne(mappedBy = "article")
+    @JoinColumn(nullable = true)
     private Store store;
 
     public List<RecepeEntry> getRecepeEntrys() {

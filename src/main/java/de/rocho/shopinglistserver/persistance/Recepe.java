@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.json.JSONArray;
@@ -22,11 +23,12 @@ public class Recepe implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator="stacjatv_id_seq", strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
      
     @OneToMany(mappedBy = "recepe")
+    @JoinColumn(nullable = true)
     private List<RecepeEntry> recepeEntry;
 
     public User getUser() {

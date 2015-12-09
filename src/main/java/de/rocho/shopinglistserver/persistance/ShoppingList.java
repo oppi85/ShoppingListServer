@@ -22,7 +22,7 @@ public class ShoppingList implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="stacjatv_id_seq", strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private int status;
@@ -32,6 +32,7 @@ public class ShoppingList implements Serializable {
     private List<User> userList= new ArrayList<>();
 
     @OneToMany
+    @JoinColumn(nullable = true)
     private List<ListEntry> listEntry;
 
     public List<ListEntry> getListEntry() {
