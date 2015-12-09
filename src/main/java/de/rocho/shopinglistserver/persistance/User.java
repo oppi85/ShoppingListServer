@@ -27,19 +27,19 @@ public class User implements Serializable {
     private Long id;
 
     @OneToOne
-    @Basic(optional=true)
+    @Column(nullable = true)
     private Store store;
     
     @OneToMany(mappedBy = "user")
-    @Basic(optional=true)
+    @Column(nullable = true)
     private List<ListEntry> listEntrys;
 
     @OneToMany(mappedBy = "user")
-    @Basic(optional=true)
+    @Column(nullable = true)
     private List<Recepe> recepeList;
     
     @ManyToMany
-    @Basic(optional=true)
+    @Column(nullable = true)
     private List<ShoppingList> shoppingLists;
     
     /*
