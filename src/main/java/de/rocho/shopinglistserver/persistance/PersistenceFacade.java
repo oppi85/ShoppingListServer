@@ -29,7 +29,7 @@ public class PersistenceFacade {
             persistenceMap.put("javax.persistence.jdbc.url", dbUrl);
             persistenceMap.put("javax.persistence.jdbc.user", username);
             persistenceMap.put("javax.persistence.jdbc.password", password);
-            persistenceMap.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
+            persistenceMap.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
             
             return Persistence.createEntityManagerFactory("ShoppingListPU", persistenceMap);
         }else{

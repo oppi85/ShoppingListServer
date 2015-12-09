@@ -53,6 +53,7 @@ public class ShoppingListRessource {
      */
     @GET
     @Path("/create")
+    @Produces(MediaType.TEXT_PLAIN)
     public String createDummyDate() {
         CreateDB createDB;
         createDB = new CreateDB();
