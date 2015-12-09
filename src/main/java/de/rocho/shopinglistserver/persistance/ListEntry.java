@@ -21,7 +21,7 @@ public class ListEntry implements Serializable {
     @ManyToOne
     private Article article;
     @ManyToOne
-    private User user;
+    private AppUser user;
     
     private long shoppingListID;
 
@@ -46,11 +46,11 @@ public class ListEntry implements Serializable {
         return shoppingListID;
     }
 
-    public void setUser(User user) {
+    public void setUser(AppUser user) {
         this.user = user;
     }
 
-    public User getUser() {
+    public AppUser getUser() {
         return user;
     }
 

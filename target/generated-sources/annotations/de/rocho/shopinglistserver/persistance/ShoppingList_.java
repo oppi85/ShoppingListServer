@@ -1,7 +1,7 @@
 package de.rocho.shopinglistserver.persistance;
 
 import de.rocho.shopinglistserver.persistance.ListEntry;
-import de.rocho.shopinglistserver.persistance.User;
+import de.rocho.shopinglistserver.persistance.AppUser;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
@@ -11,7 +11,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(ShoppingList.class)
 public class ShoppingList_ { 
 
-    public static volatile ListAttribute<ShoppingList, User> userList;
+    public static volatile ListAttribute<ShoppingList, AppUser> userList;
     public static volatile SingularAttribute<ShoppingList, String> name;
     public static volatile SingularAttribute<ShoppingList, Long> id;
     public static volatile ListAttribute<ShoppingList, ListEntry> listEntry;

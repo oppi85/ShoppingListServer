@@ -11,7 +11,7 @@ import de.rocho.shopinglistserver.persistance.Recepe;
 import de.rocho.shopinglistserver.persistance.RecepeEntry;
 import de.rocho.shopinglistserver.persistance.ShoppingList;
 import de.rocho.shopinglistserver.persistance.Store;
-import de.rocho.shopinglistserver.persistance.User;
+import de.rocho.shopinglistserver.persistance.AppUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,14 +24,14 @@ public class MyJSONObject {
     String type;
     /**
      * 
-     * which User sends the request?
+     * which AppUser sends the request?
      * to check whether the user is able to change items
      */
     String privateKey;
     long userID;
     
     Article article;
-    User user;
+    AppUser user;
     ShoppingList shoppingList;
     ListEntry listEntry;
     Recepe recepe;
@@ -72,11 +72,11 @@ public class MyJSONObject {
         this.article = article;
     }
 
-    public User getUser() {
+    public AppUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(AppUser user) {
         this.user = user;
     }
 

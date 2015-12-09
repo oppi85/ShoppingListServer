@@ -1,7 +1,7 @@
 package de.rocho.shopinglistserver.persistance;
 
 import de.rocho.shopinglistserver.persistance.RecepeEntry;
-import de.rocho.shopinglistserver.persistance.User;
+import de.rocho.shopinglistserver.persistance.AppUser;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
@@ -14,6 +14,6 @@ public class Recepe_ {
     public static volatile SingularAttribute<Recepe, String> name;
     public static volatile ListAttribute<Recepe, RecepeEntry> recepeEntry;
     public static volatile SingularAttribute<Recepe, Long> id;
-    public static volatile SingularAttribute<Recepe, User> user;
+    public static volatile SingularAttribute<Recepe, AppUser> user;
 
 }

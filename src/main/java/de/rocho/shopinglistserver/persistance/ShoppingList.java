@@ -29,7 +29,7 @@ public class ShoppingList implements Serializable {
 
     @ManyToMany(mappedBy = "shoppingLists")
     @JoinColumn(unique = true)
-    private List<User> userList= new ArrayList<>();
+    private List<AppUser> userList= new ArrayList<>();
 
     @OneToMany
     @JoinColumn(nullable = true)
@@ -51,7 +51,7 @@ public class ShoppingList implements Serializable {
         this.status = status;
     }
 
-    public void setUserList(List<User> userList) {
+    public void setUserList(List<AppUser> userList) {
         this.userList = userList;
     }
 
@@ -63,7 +63,7 @@ public class ShoppingList implements Serializable {
         return status;
     }
 
-    public List<User> getUserList() {
+    public List<AppUser> getUserList() {
         return userList;
     }
 
@@ -113,7 +113,7 @@ public class ShoppingList implements Serializable {
             for (ListEntry le : this.listEntry) {
                 JSONArrayListEntry.put(le.toJson());
             }
-            for (User user : this.userList) {
+            for (AppUser user : this.userList) {
                 JSONArrayUser.put(user.toJson());
             }
 

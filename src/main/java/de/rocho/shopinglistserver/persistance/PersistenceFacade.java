@@ -42,10 +42,10 @@ public class PersistenceFacade {
         EntityManager em = FACTORY.createEntityManager();
         Boolean access = false;
         String type = myJsonObject.getType();
-        User databaseUser;
+        AppUser databaseUser;
         Query query = em.createQuery("SELECT u FROM User u WHERE u.id='"+myJsonObject.getUserID()+"'");
         try{
-            databaseUser = (User) query.getSingleResult();
+            databaseUser = (AppUser) query.getSingleResult();
         
         ShoppingList sl;
         
@@ -60,7 +60,7 @@ public class PersistenceFacade {
                     access = true;
                     break;
                 }
-                for(User u :  sl.getUserList()){
+                for(AppUser u :  sl.getUserList()){
                     if(u.getPrivateKey().equals(myJsonObject.getPrivateKey()))
                         access = true;
                     }
@@ -68,7 +68,7 @@ public class PersistenceFacade {
             case "listEntry":
                 query = em.createQuery("SELECT sl FROM ShoppingList sl WHERE sl.id='"+myJsonObject.getListEntry().getShoppingListID()+"'");
                 sl = (ShoppingList) query.getSingleResult();
-                for(User u :  sl.getUserList()){
+                for(AppUser u :  sl.getUserList()){
                     
                     if(u.getPrivateKey().equals(myJsonObject.getPrivateKey())) 
                         access = true;
@@ -154,10 +154,10 @@ public class PersistenceFacade {
 
 //------ END ARTICLE --------
 //------ START USER ---------
-    public User createUser(User newUser, String privateKey) {
+    public AppUser createUser(AppUser newUser, String privateKey) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        User tmpUser = new User();
+        AppUser tmpUser = new AppUser();
         newUser.setPrivateKey(privateKey);
         Query query;
         
@@ -168,7 +168,7 @@ public class PersistenceFacade {
         
         try{
             query = em.createQuery("SELECT u FROM User u WHERE u.name='"+newUser.getName()+"'");
-            User user = (User) query.getSingleResult();
+            AppUser user = (AppUser) query.getSingleResult();
             String userName = newUser.getName()+ "+" + user.getId();
             newUser.setName(userName);
         }catch(Exception e){
@@ -181,26 +181,26 @@ public class PersistenceFacade {
             tx.commit();
             
             query = em.createQuery("SELECT u FROM User u WHERE u.privateKey='"+newUser.getPrivateKey()+"'");
-            tmpUser = (User) query.getSingleResult();
+            tmpUser = (AppUser) query.getSingleResult();
         } catch (Exception e) {
             return tmpUser;
         }
         return tmpUser;
     }
 
-    public User findUser(String publicKey) {
+    public AppUser findUser(String publicKey) {
         EntityManager em = FACTORY.createEntityManager();
         
         Query query = em.createQuery("SELECT u from User u WHERE u.publicKey='" + publicKey + "'");
-        User user = (User) query.getSingleResult();
+        AppUser user = (AppUser) query.getSingleResult();
         
         return user;
     }
 
-    public List<User> findAllUser() {
+    public List<AppUser> findAllUser() {
         EntityManager entityManager = FACTORY.createEntityManager();
         Query query = entityManager.createQuery("SELECT u from User u");
-        List<User> userList = query.getResultList();
+        List<AppUser> userList = query.getResultList();
 
         return userList;
     }
@@ -209,9 +209,9 @@ public class PersistenceFacade {
     public void editUser(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        User user = myJsonObject.getUser();
+        AppUser user = myJsonObject.getUser();
         Query query = em.createQuery("SELECT u from User u WHERE u.id='" + user.getId() + "'");
-        User tempUser = (User) query.getSingleResult();
+        AppUser tempUser = (AppUser) query.getSingleResult();
             
         if (user.getName() != null) {
             tempUser.setName(user.getName());
@@ -228,7 +228,7 @@ public class PersistenceFacade {
         }
     }
 
-    public void deleteUser(User user) {
+    public void deleteUser(AppUser user) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
@@ -240,13 +240,13 @@ public class PersistenceFacade {
         }
     }
 
-//------ END User --------    
+//------ END AppUser --------    
 //------ START SHOPPINGLIST --------
     public ShoppingList createShoppingList(ShoppingList shoppingList) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Query query = em.createQuery("SELECT u from User u WHERE u.id='" + shoppingList.getUserList().get(0).getId() + "'");
-        User user = (User) query.getSingleResult();
+        AppUser user = (AppUser) query.getSingleResult();
         
         ShoppingList sl = shoppingList;
             try {
@@ -277,7 +277,7 @@ public class PersistenceFacade {
         ShoppingList shoppingList = myJsonObject.getShoppingList();
         Query query = em.createQuery("SELECT u FROM User u WHERE u.publicKey'" + shoppingList.getUserList().get(0).getPublicKey() + "'");
         ShoppingList sl = findShoppingList(shoppingList.getId());
-        User user = (User) query.getSingleResult();
+        AppUser user = (AppUser) query.getSingleResult();
         try {
             tx.begin();
             sl.getUserList().add(user);
@@ -298,7 +298,7 @@ public class PersistenceFacade {
         try {
             tx.begin();
             ShoppingList sl = findShoppingList(tempShoppingList.getId());
-            User user = findUser(tempShoppingList.getUserList().get(0).getPublicKey());
+            AppUser user = findUser(tempShoppingList.getUserList().get(0).getPublicKey());
             sl.getUserList().remove(user);
             if (sl.getUserList().isEmpty()) {
                 deleteShoppingList(sl);

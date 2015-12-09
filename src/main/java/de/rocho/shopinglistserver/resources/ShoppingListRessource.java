@@ -15,7 +15,7 @@ import de.rocho.shopinglistserver.persistance.Recepe;
 import de.rocho.shopinglistserver.persistance.RecepeEntry;
 import de.rocho.shopinglistserver.persistance.ShoppingList;
 import de.rocho.shopinglistserver.persistance.Store;
-import de.rocho.shopinglistserver.persistance.User;
+import de.rocho.shopinglistserver.persistance.AppUser;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -188,7 +188,7 @@ public class ShoppingListRessource {
                     break;
                 case 7:
                     //{"name":"String", "keyNumber":"String"}
-                    //JSONObject.put("User", facade.findUser(id).toJson());
+                    //JSONObject.put("AppUser", facade.findUser(id).toJson());
                     break;
             }
         } catch (JSONException ex) {
@@ -279,8 +279,8 @@ public class ShoppingListRessource {
                     JSONObject.put("Store", JSONArrayObject);
                     break;
                 case 7:
-                    List<User> users = facade.findAllUser();
-                    for (User u : users) {
+                    List<AppUser> users = facade.findAllUser();
+                    for (AppUser u : users) {
                         JSONArrayObject.put(u.toJson());
                     }
                     
@@ -368,7 +368,7 @@ public class ShoppingListRessource {
     @POST
     @Path("/user")
     @Consumes(MediaType.APPLICATION_JSON)
-//Add a explicite User to an given List
+//Add a explicite AppUser to an given List
     public String addUserToList(MyJSONObject myJsonObject) {
         PersistenceFacade facade = new PersistenceFacade();
         Boolean bool = facade.checkAccess(myJsonObject);

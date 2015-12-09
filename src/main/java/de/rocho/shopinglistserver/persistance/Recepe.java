@@ -19,7 +19,7 @@ import org.json.JSONObject;
 public class Recepe implements Serializable {
     
     @ManyToOne
-    private User user;
+    private AppUser user;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,11 +31,11 @@ public class Recepe implements Serializable {
     @JoinColumn(nullable = true)
     private List<RecepeEntry> recepeEntry;
 
-    public User getUser() {
+    public AppUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(AppUser user) {
         this.user = user;
     }
    

@@ -7,7 +7,7 @@ import de.rocho.shopinglistserver.persistance.Recepe;
 import de.rocho.shopinglistserver.persistance.RecepeEntry;
 import de.rocho.shopinglistserver.persistance.ShoppingList;
 import de.rocho.shopinglistserver.persistance.Store;
-import de.rocho.shopinglistserver.persistance.User;
+import de.rocho.shopinglistserver.persistance.AppUser;
 
 public class CreateDB {
     
@@ -17,9 +17,9 @@ public class CreateDB {
         Article a = new Article();
         Article a1 = new Article();
         Article a2 = new Article();
-        User u = new User();
-        User u1 = new User();
-        User u2 = new User();
+        AppUser u = new AppUser();
+        AppUser u1 = new AppUser();
+        AppUser u2 = new AppUser();
         ShoppingList sl = new ShoppingList();
         ShoppingList sl1 = new ShoppingList();
         ListEntry le = new ListEntry();
