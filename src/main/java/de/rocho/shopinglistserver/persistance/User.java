@@ -28,7 +28,7 @@ public class User implements Serializable {
     private Long id;
 
     @OneToOne
-    @Column(nullable = true)
+    @JoinColumn(nullable = true)
     private Store store;
     
     @OneToMany(mappedBy = "user")
