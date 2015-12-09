@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 public class PersistenceFacade {
 
-    DbHelper dbHelper = new DbHelper();
+    DbHelper dbHelper;
     private static final Logger log = Logger.getLogger( PersistenceFacade.class.getName() );
     EntityManagerFactory FACTORY = createEntityManagerFactory();
    
