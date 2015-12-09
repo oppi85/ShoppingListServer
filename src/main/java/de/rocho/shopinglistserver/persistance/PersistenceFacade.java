@@ -19,8 +19,9 @@ public class PersistenceFacade {
     EntityManagerFactory FACTORY = createEntityManagerFactory();
    
     public EntityManagerFactory createEntityManagerFactory(){
-        System.out.println("CREATE ENTITY MANAGER FACTORY: " + dbUri.toString());
+        
         if(dbUri != null){
+            System.out.println("CREATE ENTITY MANAGER FACTORY: " + dbUri.toString());
             HashMap<String, String> persistenceMap = new HashMap<>();
             String username = dbUri.getUserInfo().split(":")[0];
             String password = dbUri.getUserInfo().split(":")[1];
@@ -275,7 +276,7 @@ public class PersistenceFacade {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         ShoppingList shoppingList = myJsonObject.getShoppingList();
-        Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.publicKey'" + shoppingList.getUserList().get(0).getPublicKey() + "'");
+        Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.publicKey='" + shoppingList.getUserList().get(0).getPublicKey() + "'");
         ShoppingList sl = findShoppingList(shoppingList.getId());
         AppUser user = (AppUser) query.getSingleResult();
         try {

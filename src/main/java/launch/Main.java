@@ -19,7 +19,7 @@ public class Main {
 
     public static void main(String args[]) throws IOException, URISyntaxException {
         
-        URI BASE_URI = URI.create("http://localhost:8080/rest/");
+        URI BASE_URI = URI.create("http://192.168.1.106:8080/rest/");
         Set<Class<?>> s = new HashSet<>();
         s.add(ShoppingListRessource.class);
         ResourceConfig resConfig = new ResourceConfig(s);
