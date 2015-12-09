@@ -32,11 +32,11 @@ public class User implements Serializable {
     private Store store;
     
     @OneToMany(mappedBy = "user")
-    @Column(nullable = true)
+    @JoinColumn(nullable = true)
     private List<ListEntry> listEntrys;
 
     @OneToMany(mappedBy = "user")
-    @Column(nullable = true)
+    @JoinColumn(nullable = true)
     private List<Recepe> recepeList;
     
     @ManyToMany
