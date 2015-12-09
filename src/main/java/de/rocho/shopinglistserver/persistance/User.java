@@ -2,6 +2,7 @@ package de.rocho.shopinglistserver.persistance;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,15 +27,19 @@ public class User implements Serializable {
     private Long id;
 
     @OneToOne
+    @Basic(optional=true)
     private Store store;
     
     @OneToMany(mappedBy = "user")
+    @Basic(optional=true)
     private List<ListEntry> listEntrys;
 
     @OneToMany(mappedBy = "user")
+    @Basic(optional=true)
     private List<Recepe> recepeList;
     
     @ManyToMany
+    @Basic(optional=true)
     private List<ShoppingList> shoppingLists;
     
     /*
