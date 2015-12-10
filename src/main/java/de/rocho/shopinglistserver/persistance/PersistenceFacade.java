@@ -302,9 +302,10 @@ public class PersistenceFacade {
         return jsonResponse;
     }
 
-    public void deleteUserFromList(MyJSONObject myJsonObject) {
+    public JSONObject deleteUserFromList(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
+        JSONObject jsonResponse = new JSONObject();
         ShoppingList tempShoppingList = myJsonObject.getShoppingList();
         
         try {
@@ -321,9 +322,12 @@ public class PersistenceFacade {
             user.getShoppingLists().remove(sl);
             em.merge(user);
             tx.commit();
+            jsonResponse.put("username", user.getName());
+            jsonResponse.put("slName", sl.getName());
         } catch (Exception e) {
             System.out.println(e);
         }
+        return  jsonResponse;
     }
 
     public List<ShoppingList> findAllShoppingLists() {

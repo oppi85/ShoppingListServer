@@ -393,7 +393,7 @@ public class ShoppingListRessource {
      * @param myJsonObject
      * @return
      */
-    @DELETE
+    @PUT
     @Path("/user")
     @Consumes(MediaType.APPLICATION_JSON)
     /**
@@ -402,12 +402,18 @@ public class ShoppingListRessource {
      * }
      */
     public String deleteUserFromList(MyJSONObject myJsonObject) {
-        PersistenceFacade facade = new PersistenceFacade();
-        Boolean bool = facade.checkAccess(myJsonObject);
-        if(bool)
-            facade.deleteUserFromList(myJsonObject);
-
-        return Response.filter("User deleted");
+        
+            PersistenceFacade facade = new PersistenceFacade();
+            JSONObject JSONObject = new JSONObject();
+            Boolean bool = facade.checkAccess(myJsonObject);
+         try {   if(bool)
+                JSONObject.put("Response", facade.deleteUserFromList(myJsonObject));
+            
+            
+        } catch (JSONException ex) {
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return JSONObject.toString();
     }
 
     @GET
