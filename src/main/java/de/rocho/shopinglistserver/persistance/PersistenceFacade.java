@@ -21,7 +21,6 @@ public class PersistenceFacade {
     public EntityManagerFactory createEntityManagerFactory(){
         
         if(dbUri != null){
-            System.out.println("CREATE ENTITY MANAGER FACTORY: " + dbUri.toString());
             HashMap<String, String> persistenceMap = new HashMap<>();
             String username = dbUri.getUserInfo().split(":")[0];
             String password = dbUri.getUserInfo().split(":")[1];
@@ -166,25 +165,30 @@ public class PersistenceFacade {
          * prüft erst ob eine NUtzername schon vorhanden ist
          * wenn das der Fall ist, wird Serverseitig der neue Benutzer umbenannt (hinzufügen von + id)
          */
-        
         try{
-            query = em.createQuery("SELECT u FROM AppUser u WHERE u.name='"+newUser.getName()+"'");
-            AppUser user = (AppUser) query.getSingleResult();
-            String userName = newUser.getName()+ "+" + user.getId();
-            newUser.setName(userName);
-        }catch(Exception e){
-            log.info("Nutzername wurde geändert");
-        }
-        
-        try {
-            tx.begin();
-            em.persist(newUser);
-            tx.commit();
-            
-            query = em.createQuery("SELECT u FROM AppUser u WHERE u.privateKey='"+newUser.getPrivateKey()+"'");
+            query = em.createQuery("SELECT u FROM AppUser u WHERE u.privateKey='"+privateKey+"'");
             tmpUser = (AppUser) query.getSingleResult();
-        } catch (Exception e) {
-            return tmpUser;
+            log.info("Nutzer schon vorhande");
+        }catch(Exception e1){
+            try{
+                query = em.createQuery("SELECT u FROM AppUser u WHERE u.name='"+newUser.getName()+"'");
+                AppUser user = (AppUser) query.getSingleResult();
+                String userName = newUser.getName()+ "+" + user.getId();
+                newUser.setName(userName);
+            }catch(Exception e){
+                log.info("Nutzername wurde geändert");
+            }
+
+            try {
+                tx.begin();
+                em.persist(newUser);
+                tx.commit();
+
+                query = em.createQuery("SELECT u FROM AppUser u WHERE u.privateKey='"+newUser.getPrivateKey()+"'");
+                tmpUser = (AppUser) query.getSingleResult();
+            } catch (Exception e) {
+                return tmpUser;
+            }
         }
         return tmpUser;
     }
