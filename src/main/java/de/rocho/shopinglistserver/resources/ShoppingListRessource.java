@@ -152,7 +152,7 @@ public class ShoppingListRessource {
     }
 
     @GET
-    @Path("/single/{ObjID}/{id}")
+    @Path("/single/{ObjID}/id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getObject(@PathParam("ObjID")Long ObjID, @PathParam("id")Long id){
         PersistenceFacade facade = new PersistenceFacade();
@@ -371,16 +371,21 @@ public class ShoppingListRessource {
 //Add a explicite AppUser to an given List
     public String addUserToList(MyJSONObject myJsonObject) {
         PersistenceFacade facade = new PersistenceFacade();
+        JSONObject JSONObject = new JSONObject();
         Boolean bool = facade.checkAccess(myJsonObject);
         /**
          * {"type":"shoppingList", "userID":"LONG", "privateKey":"STRING",
          *  "shoppingList":{"id": "LONG", "userList":[{"publicKey":"STRING"}]}
          * }
          */
-        if(bool)
-            facade.addUserToList(myJsonObject);
+        try {
+            if(bool)
+                JSONObject.put("Response", facade.addUserToList(myJsonObject));
+        } catch (JSONException ex) {
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
-        return Response.filter("User added");
+        return JSONObject.toString();
     }
 
     /**

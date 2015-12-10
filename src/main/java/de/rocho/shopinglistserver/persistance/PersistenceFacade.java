@@ -11,6 +11,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import launch.Main;
+import org.json.JSONObject;
 
 public class PersistenceFacade {
 
@@ -276,8 +277,9 @@ public class PersistenceFacade {
     }
 
     //{"id": "LONG", "userList":[{"id": "LONG"}]}
-    public void addUserToList(MyJSONObject myJsonObject) {
+    public JSONObject addUserToList(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
+        JSONObject jsonResponse = new JSONObject();
         EntityTransaction tx = em.getTransaction();
         ShoppingList shoppingList = myJsonObject.getShoppingList();
         Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.publicKey='" + shoppingList.getUserList().get(0).getPublicKey() + "'");
@@ -290,9 +292,14 @@ public class PersistenceFacade {
             user.getShoppingLists().add(sl);
             em.merge(user);
             tx.commit();
+            jsonResponse.put("username", user.getName());
+            jsonResponse.put("slName", sl.getName());
         } catch (Exception e) {
             System.out.println(e);
         }
+        
+        
+        return jsonResponse;
     }
 
     public void deleteUserFromList(MyJSONObject myJsonObject) {
