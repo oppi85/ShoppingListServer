@@ -118,7 +118,7 @@ public class PersistenceFacade {
         return true;
     }
 
-    public void deleteArticle(Article article) {
+    public Article deleteArticle(Article article) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
@@ -128,9 +128,10 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return article;
     }
 
-    public void editArticle(MyJSONObject myJsonObject) {
+    public Article editArticle(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Article article = myJsonObject.getArticle();
@@ -151,6 +152,7 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return tempArticle;
     }
 
 //------ END ARTICLE --------
@@ -212,7 +214,7 @@ public class PersistenceFacade {
     }
 
     //TODO: 
-    public void editUser(MyJSONObject myJsonObject) {
+    public AppUser editUser(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         AppUser user = myJsonObject.getUser();
@@ -232,9 +234,10 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return tempUser;
     }
 
-    public void deleteUser(AppUser user) {
+    public AppUser deleteUser(AppUser user) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
@@ -244,6 +247,7 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return user;
     }
 
 //------ END AppUser --------    
@@ -277,14 +281,19 @@ public class PersistenceFacade {
     }
 
     //{"id": "LONG", "userList":[{"id": "LONG"}]}
-    public JSONObject addUserToList(MyJSONObject myJsonObject) {
+    public MyJSONObject addUserToList(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
-        JSONObject jsonResponse = new JSONObject();
+        MyJSONObject response = new MyJSONObject();
+        
         EntityTransaction tx = em.getTransaction();
         ShoppingList shoppingList = myJsonObject.getShoppingList();
         Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.publicKey='" + shoppingList.getUserList().get(0).getPublicKey() + "'");
         ShoppingList sl = findShoppingList(shoppingList.getId());
         AppUser user = (AppUser) query.getSingleResult();
+        
+        
+            response.setType("user");
+            response.setPrivateKey("serverKey");
         try {
             tx.begin();
             sl.getUserList().add(user);
@@ -292,22 +301,25 @@ public class PersistenceFacade {
             user.getShoppingLists().add(sl);
             em.merge(user);
             tx.commit();
-            jsonResponse.put("username", user.getName());
-            jsonResponse.put("slName", sl.getName());
+            response.setUser(user);
+            response.setShoppingList(sl);
         } catch (Exception e) {
             System.out.println(e);
         }
         
         
-        return jsonResponse;
+        return response;
     }
 
-    public JSONObject deleteUserFromList(MyJSONObject myJsonObject) {
+    public MyJSONObject deleteUserFromList(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         JSONObject jsonResponse = new JSONObject();
+        MyJSONObject response =new MyJSONObject();
         ShoppingList tempShoppingList = myJsonObject.getShoppingList();
         
+        response.setType("user");
+        response.setPrivateKey("serverKey");
         try {
             tx.begin();
             ShoppingList sl = findShoppingList(tempShoppingList.getId());
@@ -322,12 +334,12 @@ public class PersistenceFacade {
             user.getShoppingLists().remove(sl);
             em.merge(user);
             tx.commit();
-            jsonResponse.put("username", user.getName());
-            jsonResponse.put("slName", sl.getName());
+            response.setUser(user);
+            response.setShoppingList(sl);
         } catch (Exception e) {
             System.out.println(e);
         }
-        return  jsonResponse;
+        return  response;
     }
 
     public List<ShoppingList> findAllShoppingLists() {
@@ -338,7 +350,7 @@ public class PersistenceFacade {
         return shoppingList;
     }
 
-    public void deleteShoppingList(ShoppingList shoppingList) {
+    public ShoppingList deleteShoppingList(ShoppingList shoppingList) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -352,9 +364,10 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return shoppingList;
     }
     
-    public void editShoppingList(MyJSONObject myJsonObject) {
+    public ShoppingList editShoppingList(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         ShoppingList shoppingList = myJsonObject.getShoppingList();
@@ -372,6 +385,7 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return tempShoppingList;
     }
 
 //------ END SHOPPINGLIST --------  
@@ -418,7 +432,7 @@ public class PersistenceFacade {
 
     }
 
-    public void deleteListEntry(ListEntry listEntry) {
+    public ListEntry deleteListEntry(ListEntry listEntry) {
         
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -433,10 +447,10 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
-        
+        return listEntry;
     }
 
-    public void editListEntry(MyJSONObject myJsonObject) {
+    public ListEntry editListEntry(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         ListEntry listEntry = myJsonObject.getListEntry();
@@ -459,11 +473,12 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return tempListEntry;
     }
 //------ END LISTENTRY -------- 
 
 //------ START RECEPE ---------
-    public void createRecepe(Recepe recepe) {        
+    public Recepe createRecepe(Recepe recepe) {        
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();        
         try {
@@ -473,6 +488,7 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }        
+        return recepe;
     }
 
     public Recepe findRecepe(Long id) {
@@ -492,7 +508,7 @@ public class PersistenceFacade {
     }
 
 //TODO: 
-    public void editRecepe(MyJSONObject myJsonObject) {
+    public Recepe editRecepe(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Recepe recepe = myJsonObject.getRecepe();
@@ -510,9 +526,10 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+         return tempRecepe;
     }
 
-    public void deleteRecepe(Recepe recepe) {
+    public Recepe deleteRecepe(Recepe recepe) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -526,11 +543,12 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return recepe;
     }
 //------ END RECEPE -------- 
 
 //------ START RECEPE ENTRY--------   
-    public void createRecepeEntry(RecepeEntry recepeEntry) {
+    public RecepeEntry createRecepeEntry(RecepeEntry recepeEntry) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         
@@ -548,7 +566,7 @@ public class PersistenceFacade {
             } catch (Exception e) {
                 System.out.println(e);
             }
-        
+        return recepeEntry;
     }
 
     public RecepeEntry findRecepeEntry(Long id) {
@@ -568,7 +586,7 @@ public class PersistenceFacade {
 
     }
 
-    public void deleteRecepeEntry(RecepeEntry recepeEntry) {
+    public RecepeEntry deleteRecepeEntry(RecepeEntry recepeEntry) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
@@ -578,9 +596,10 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return recepeEntry;
     }
 
-    public void editRecepeEntry(MyJSONObject myJsonObject) {
+    public RecepeEntry editRecepeEntry(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         RecepeEntry recepeEntry = myJsonObject.getRecepeEntry();
@@ -600,10 +619,11 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return tempRecepeEntry;
     }
 
 //------ START STORE --------
-    public void createStoreEntry(Store store) {
+    public Store createStoreEntry(Store store) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         
@@ -614,7 +634,7 @@ public class PersistenceFacade {
             } catch (Exception e) {
                 System.out.println(e);
             }
-        
+        return store;
     }
 
     public Store findStoreEntry(Long id) {
@@ -634,7 +654,7 @@ public class PersistenceFacade {
 
     }
 
-    public void deleteStoreEntry(Store store) {
+    public Store deleteStoreEntry(Store store) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
@@ -644,9 +664,10 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return store;
     }
 
-    public void editStoreEntry(MyJSONObject myJsonObject) {
+    public Store editStoreEntry(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Store store = myJsonObject.getStore();
@@ -666,6 +687,7 @@ public class PersistenceFacade {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return tempStoreEntry;
     }
 //------ END STORE -------- 
 }

@@ -67,10 +67,9 @@ public class ShoppingListRessource {
     @JsonIgnoreProperties
     public String createObject(MyJSONObject myJsonObject) {
         PersistenceFacade facade = new PersistenceFacade();
-        
         Boolean bool = facade.checkAccess(myJsonObject);
         MyJSONObject response = new MyJSONObject();
-        JSONObject ob = new JSONObject();
+        JSONObject JSONObject = new JSONObject();
         
         if(bool){
             switch (myJsonObject.getType()) {
@@ -109,7 +108,9 @@ public class ShoppingListRessource {
                      *  "recepe":{"name": "STRING", "user":{"id":"LONG"}}
                      * }
                      */
-                    facade.createRecepe(myJsonObject.getRecepe());
+                    response.setType("recepe");
+                    response.setPrivateKey("serverKey");
+                    response.setRecepe(facade.createRecepe(myJsonObject.getRecepe()));
                     break;
                 case "recepeEntry":
                     /**
@@ -118,7 +119,9 @@ public class ShoppingListRessource {
                      * }
                      * myJsonObject.userID = Recepe ownwing User id
                      */
-                    facade.createRecepeEntry(myJsonObject.getRecepeEntry());
+                    response.setType("recepeEntry");
+                    response.setPrivateKey("serverKey");
+                    response.setRecepeEntry(facade.createRecepeEntry(myJsonObject.getRecepeEntry()));
                     break;
                 case "store":
                     /**
@@ -126,8 +129,9 @@ public class ShoppingListRessource {
                      *  "store":{"article":{"id":"LONG"}, "quantity":"INT"}
                      * }
                      * myJsonObject.userID = Recepe ownwing User id
-                     */
-                    facade.createStoreEntry(myJsonObject.getStore());
+                     */response.setType("recepeEntry");
+                    response.setPrivateKey("serverKey");
+                    response.setStore(facade.createStoreEntry(myJsonObject.getStore()));
                     break;
                 case "user":
                     /**
@@ -138,17 +142,17 @@ public class ShoppingListRessource {
                     response.setType("user");
                     response.setPrivateKey("serverKey");
                     response.setUser(facade.createUser(myJsonObject.getUser(), myJsonObject.getPrivateKey()));
-                    
                     break;
             }
         }
         try {
-            ob.put("Response", response.toJson());
+            JSONObject.put("Response", response.toJson());
         } catch (JSONException ex) {
             Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(ob.toString());
-        return ob.toString();
+        
+        System.out.println(JSONObject.toString());
+        return JSONObject.toString();
     }
 
     @GET
@@ -157,43 +161,42 @@ public class ShoppingListRessource {
     public String getObject(@PathParam("ObjID")Long ObjID, @PathParam("id")Long id){
         PersistenceFacade facade = new PersistenceFacade();
         JSONObject JSONObject = new JSONObject();
+        MyJSONObject response = new MyJSONObject();
+        switch (ObjID.intValue()) {
+            case 1:
 
-        try {
-            switch (ObjID.intValue()) {
-                case 1:
+                //{"name": "String", "unit": "String"}
+                response.setArticle(facade.findArticle(id));
 
-                    //{"name": "String", "unit": "String"}
-                    JSONObject.put("Article", facade.findArticle(id).toJson());
-
-                    break;
-                case 2:
-                    //{"name":"String", "user":"String"}
-                    JSONObject.put("ShoppingList", facade.findShoppingList(id).toJson());
-                    break;
-                case 3:
-                    //
-                    JSONObject.put("ListEntry", facade.findListEntry(id).toJson());
-                    break;
-                case 4:
-                    //
-                    JSONObject.put("Recepe", facade.findRecepe(id).toJson());
-                    break;
-                case 5:
-                    //
-                    JSONObject.put("RecepeEntry", facade.findRecepeEntry(id).toJson());
-                    break;
-                case 6:
-                    //{}
-                    JSONObject.put("Store", facade.findStoreEntry(id).toJson());
-                    break;
-                case 7:
-                    //{"name":"String", "keyNumber":"String"}
-                    //JSONObject.put("AppUser", facade.findUser(id).toJson());
-                    break;
+                break;
+            case 2:
+                //{"name":"String", "user":"String"}
+                response.setShoppingList(facade.findShoppingList(id));
+                break;
+            case 3:
+                //
+              response.setListEntry(facade.findListEntry(id));
+                break;
+            case 4:
+                //
+                response.setRecepe(facade.findRecepe(id));
+                break;
+            case 5:
+                //
+                response.setRecepeEntry(facade.findRecepeEntry(id));
+                break;
+            case 6:
+                //{}
+               response.setStore(facade.findStoreEntry(id));
+                break;
             }
+        try {
+            JSONObject.put("Response", response.toJson());
         } catch (JSONException ex) {
             Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        System.out.println(JSONObject);
         return JSONObject.toString();
     }
 
@@ -290,74 +293,117 @@ public class ShoppingListRessource {
         } catch (JSONException ex) {
             Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        System.out.println(JSONObject);
         return JSONObject.toString();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void editObject(MyJSONObject myJsonObject) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public String editObject(MyJSONObject myJsonObject) {
         PersistenceFacade facade = new PersistenceFacade();
         Boolean bool = facade.checkAccess(myJsonObject);
+        MyJSONObject response = new MyJSONObject();
+        JSONObject JSONObject = new JSONObject();
+        response.setPrivateKey("serverKey");
+        
         if(bool){
             switch (myJsonObject.getType()) {
                 case "article":
-                    facade.editArticle(myJsonObject);
+                     response.setType("article");
+                    response.setArticle(facade.editArticle(myJsonObject));
                     break;
                 case "shoppingList":
-                    facade.editShoppingList(myJsonObject);
+                    response.setType("shoppingList");
+                    response.setShoppingList(facade.editShoppingList(myJsonObject));
                     break;
                 case "listEntry":
-                    facade.editListEntry(myJsonObject);
+                    response.setType("listEntry");
+                    response.setListEntry(facade.editListEntry(myJsonObject));
                     break;
                 case "recepe":
-                    facade.editRecepe(myJsonObject);
+                    response.setType("recepe");
+                    response.setRecepe(facade.editRecepe(myJsonObject));
                     break;
                 case "recepeEntry":
-                    facade.editRecepeEntry(myJsonObject);
+                    response.setType("recepeEntry");
+                    response.setRecepeEntry(facade.editRecepeEntry(myJsonObject));
                     break;
                 case "store":
-                    facade.editStoreEntry(myJsonObject);
+                    response.setType("store");
+                    response.setStore(facade.editStoreEntry(myJsonObject));
                     break;
                 case "user":
-                    facade.editUser(myJsonObject);
+                    response.setType("user");
+                    response.setUser(facade.editUser(myJsonObject));
                     break;
             }
         }
+        
+        try {
+            JSONObject.put("Response", response.toJson());
+        } catch (JSONException ex) {
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.println(JSONObject);
+        return JSONObject.toString();
     }
 
     @PUT
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @JsonIgnoreProperties
-    public void deleteObject(MyJSONObject myJsonObject) {
+    public String deleteObject(MyJSONObject myJsonObject) {
         PersistenceFacade facade = new PersistenceFacade();
-        
+        MyJSONObject response = new MyJSONObject();
+        JSONObject JSONObject = new JSONObject();
+        response.setPrivateKey("serverKey");
         Boolean bool = facade.checkAccess(myJsonObject);
+        
         if(bool){
             switch (myJsonObject.getType()) {
                 case "article":
-                    facade.deleteArticle(myJsonObject.getArticle());
+                     response.setType("article");
+                    response.setArticle(facade.deleteArticle(myJsonObject.getArticle()));
                     break;
                 case "shoppingList":
-                    facade.deleteShoppingList(myJsonObject.getShoppingList());
+                    response.setType("shoppingList");
+                    response.setShoppingList(facade.deleteShoppingList(myJsonObject.getShoppingList()));
                     break;
                 case "listEntry":
-                    facade.deleteListEntry(myJsonObject.getListEntry());
+                    response.setType("listEntry");
+                    response.setListEntry(facade.deleteListEntry(myJsonObject.getListEntry()));
                     break;
                 case "recepe":
-                    facade.deleteRecepe(myJsonObject.getRecepe());
+                    response.setType("recepe");
+                    response.setRecepe(facade.deleteRecepe(myJsonObject.getRecepe()));
                     break;
                 case "recepeEntry":
-                    facade.deleteRecepeEntry(myJsonObject.getRecepeEntry());
+                    response.setType("recepeEntry");
+                    response.setRecepeEntry(facade.deleteRecepeEntry(myJsonObject.getRecepeEntry()));
                     break;
                 case "store":
-                    facade.deleteStoreEntry(myJsonObject.getStore());
+                    response.setType("store");
+                    response.setStore(facade.deleteStoreEntry(myJsonObject.getStore()));
                     break;
                 case "user":
-                    facade.deleteUser(myJsonObject.getUser());
+                    response.setType("user");
+                    response.setUser(facade.deleteUser(myJsonObject.getUser()));
                     break;
             }
         }
+           try {
+            JSONObject.put("Response", response.toJson());
+        } catch (JSONException ex) {
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.println(JSONObject);
+        return JSONObject.toString();
+        
     }
 
     /**
@@ -368,23 +414,29 @@ public class ShoppingListRessource {
     @POST
     @Path("/user")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
 //Add a explicite AppUser to an given List
     public String addUserToList(MyJSONObject myJsonObject) {
         PersistenceFacade facade = new PersistenceFacade();
+        MyJSONObject response;
         JSONObject JSONObject = new JSONObject();
         Boolean bool = facade.checkAccess(myJsonObject);
+        
         /**
          * {"type":"shoppingList", "userID":"LONG", "privateKey":"STRING",
          *  "shoppingList":{"id": "LONG", "userList":[{"publicKey":"STRING"}]}
          * }
          */
-        try {
-            if(bool)
-                JSONObject.put("Response", facade.addUserToList(myJsonObject));
-        } catch (JSONException ex) {
-            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
+        if(bool){
+            try{
+                response = facade.addUserToList(myJsonObject);
+                JSONObject.put("Response", response.toJson());
+            } catch (JSONException ex) {
+                Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    
+        
+        System.out.println(JSONObject);
         return JSONObject.toString();
     }
 
@@ -396,23 +448,24 @@ public class ShoppingListRessource {
     @PUT
     @Path("/user")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     /**
      * {"type":"shoppingList", "userID":"LONG", "privateKey":"STRING",
      *  "shoppingList":{"id": "LONG", "userList":[{"id":"LONG"}]}
      * }
      */
     public String deleteUserFromList(MyJSONObject myJsonObject) {
-        
             PersistenceFacade facade = new PersistenceFacade();
             JSONObject JSONObject = new JSONObject();
             Boolean bool = facade.checkAccess(myJsonObject);
-         try {   if(bool)
-                JSONObject.put("Response", facade.deleteUserFromList(myJsonObject));
-            
-            
+        try {   
+            if(bool)
+                JSONObject.put("Response", facade.deleteUserFromList(myJsonObject).toJson());
         } catch (JSONException ex) {
             Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        System.out.println(JSONObject);
          return JSONObject.toString();
     }
 

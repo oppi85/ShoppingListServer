@@ -14,9 +14,17 @@ public class CreateDB {
     public CreateDB(){
         PersistenceFacade pf = new PersistenceFacade();
         
+        for(int i = 0 ; i<article.length; i++){
+            Article a = new Article();
+            a.setName(article[i]);
+            a.setUnit(article[i++]);
+            pf.createArticle(a);
+        }
+        
         Article a = new Article();
         Article a1 = new Article();
         Article a2 = new Article();
+        
         AppUser u = new AppUser();
         AppUser u1 = new AppUser();
         AppUser u2 = new AppUser();
@@ -30,15 +38,15 @@ public class CreateDB {
         Recepe r;
         RecepeEntry re;
         
-        a.setName("Toast");
-        a.setUnit("Pck");
+        a.setName("Öl");
+        a.setUnit("Fl");
         pf.createArticle(a);
         
-        a1.setName("Milch");
+        a1.setName("Papier");
         a1.setUnit("Pck");
         pf.createArticle(a1);
         
-        a2.setName("Kaffe");
+        a2.setName("Klopapier");
         a2.setUnit("Pck");
         pf.createArticle(a2);
         
@@ -101,4 +109,43 @@ public class CreateDB {
         pf.createEntry(le3);
     }
     
+    String[] article = new String[]{
+        "Toast","Pck",
+        "Milch","Pck",
+        "Kaffee","Pck",
+        "Butter","Pck",
+        "Käse","Pck",
+        "Magarine","Pck",
+        "Obst","",
+        "Banane","Stk",
+        "Apfel","Stk",
+        "Weintraube","Pck",
+        "Gemüse","",
+        "Gurke","Stk",
+        "Tomate","Stk",
+        "Möhre","Stk",
+        "Paprika","Stk",
+        "Zucchini","Stk",
+        "Frischkäse","Pck",
+        "Frischkäse Körnig","Pck",
+        "Frischkäse Kräuter","Pck",
+        "Ketchup","Stk",
+        "Mehl","Pck",
+        "Wasser","Fl",
+        "Wasser Still","Fl",
+        "Wasser Medium","Fl",
+        "Wasser Natur","Fl",
+        "Bier","Fl",
+        "Orangensaft","Fl",
+        "Kirschsaft","Fl",
+        "Apfelsaft","Fl",
+        "Sekt","Fl",
+        "Sekt Trocken","Fl",
+        "Sekt Medium","Fl",
+        "Sekt Süß","Fl",
+        "Wein","Fl",
+        "Rotwein","Fl",
+        "Weißwein","Fl",
+            
+    };
 }
