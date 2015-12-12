@@ -350,21 +350,22 @@ public class PersistenceFacade {
         return shoppingList;
     }
 
-    public ShoppingList deleteShoppingList(ShoppingList shoppingList) {
+    public String deleteShoppingList(ShoppingList shoppingList) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-
-        for (ListEntry le : shoppingList.getListEntry()) {
+        ShoppingList sl = findShoppingList(shoppingList.getId());
+ 
+        for (ListEntry le : sl.getListEntry()) {
             deleteListEntry(le);
         }
         try {
             tx.begin();
-            em.remove(em.merge(shoppingList));
+            em.remove(em.merge(sl));
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
         }
-        return shoppingList;
+        return "delete";
     }
     
     public ShoppingList editShoppingList(MyJSONObject myJsonObject) {

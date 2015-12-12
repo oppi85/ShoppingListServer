@@ -366,12 +366,12 @@ public class ShoppingListRessource {
         if(bool){
             switch (myJsonObject.getType()) {
                 case "article":
-                     response.setType("article");
+                    response.setType("article");
                     response.setArticle(facade.deleteArticle(myJsonObject.getArticle()));
                     break;
                 case "shoppingList":
                     response.setType("shoppingList");
-                    response.setShoppingList(facade.deleteShoppingList(myJsonObject.getShoppingList()));
+                    facade.deleteShoppingList(myJsonObject.getShoppingList());
                     break;
                 case "listEntry":
                     response.setType("listEntry");
