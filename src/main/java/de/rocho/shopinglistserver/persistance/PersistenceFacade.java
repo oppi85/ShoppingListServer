@@ -371,7 +371,7 @@ public class PersistenceFacade {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         ShoppingList shoppingList = myJsonObject.getShoppingList();
-        Query query = em.createQuery("SELECT sl FROM ShoppinGlist sl WHERE sl.id='" + shoppingList.getId() + "'");
+        Query query = em.createQuery("SELECT sl FROM ShoppingList sl WHERE sl.id='" + shoppingList.getId() + "'");
         ShoppingList tempShoppingList = (ShoppingList) query.getSingleResult();
 
         if (shoppingList.getName() != null) {
