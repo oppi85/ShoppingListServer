@@ -354,12 +354,17 @@ public class PersistenceFacade {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         ShoppingList sl = findShoppingList(shoppingList.getId());
- 
-        for (ListEntry le : sl.getListEntry()) {
-            deleteListEntry(le);
-        }
         try {
             tx.begin();
+            for (ListEntry le : sl.getListEntry()) {
+                deleteListEntry(le);
+                em.merge(le);
+            }
+            for( AppUser user : sl.getUserList()){
+                user.getShoppingLists().remove(sl);
+                em.merge(user);
+            }
+        
             em.remove(em.merge(sl));
             tx.commit();
         } catch (Exception e) {
