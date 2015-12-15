@@ -17,7 +17,7 @@ public class CreateDB {
         for(int i = 0 ; i<article.length; i++){
             Article a = new Article();
             a.setName(article[i]);
-            a.setUnit(article[i++]);
+            a.setUnit(article[++i]);
             pf.createArticle(a);
         }
         
