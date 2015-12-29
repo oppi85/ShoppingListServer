@@ -103,7 +103,7 @@ public class PersistenceFacade {
         return article;
     }
 
-    public Boolean createArticle(Article article) {
+    public Article createArticle(Article article) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
@@ -113,9 +113,8 @@ public class PersistenceFacade {
             System.out.println("add new article "+article.getName());
         } catch (Exception e) {
             System.out.println(e);
-            return false;
         }
-        return true;
+        return article;
     }
 
     public Article deleteArticle(Article article) {

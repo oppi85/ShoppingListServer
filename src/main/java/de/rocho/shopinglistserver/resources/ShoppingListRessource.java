@@ -79,8 +79,9 @@ public class ShoppingListRessource {
                      * "article":{"name": "STRING", "unit": "STRING"}
                      * }
                      */
-
-                    facade.createArticle(myJsonObject.getArticle());
+                    response.setType("article");
+                    response.setPrivateKey("serverKey");  
+                    response.setArticle(facade.createArticle(myJsonObject.getArticle()));
                     break;
                 case "shoppingList":
                     /**
