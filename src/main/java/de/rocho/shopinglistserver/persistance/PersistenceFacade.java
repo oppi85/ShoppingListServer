@@ -472,6 +472,9 @@ public class PersistenceFacade {
         if (listEntry.getQuantity() != 0) {
             tempListEntry.setQuantity(listEntry.getQuantity());
         }
+        if (listEntry.getBought() != null) {
+            tempListEntry.setBought(listEntry.getBought());
+        }
         try {
             tx.begin();
             em.merge(tempListEntry);
