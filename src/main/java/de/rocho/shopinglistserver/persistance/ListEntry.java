@@ -132,7 +132,8 @@ public class ListEntry implements Serializable {
             .put("quantity",quantity)
             .put("addDate",addDate)
             .put("buyDate", buyDate)
-            .put("bought", bought);
+            .put("bought", bought)
+            .put("shoppingListID", shoppingListID);
 
         return jsonObjectListEntry;
     }
