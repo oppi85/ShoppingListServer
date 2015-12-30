@@ -145,6 +145,8 @@ public class ShoppingListRessource {
                     response.setUser(facade.createUser(myJsonObject.getUser(), myJsonObject.getPrivateKey()));
                     break;
             }
+        }else{
+            response.setType("no Access");
         }
         try {
             JSONObject.put("Response", response.toJson());

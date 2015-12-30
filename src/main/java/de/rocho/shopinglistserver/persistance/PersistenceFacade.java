@@ -111,10 +111,11 @@ public class PersistenceFacade {
             tx.begin();
             em.persist(newArticle);
             tx.commit();
-            System.out.println("add new article "+newArticle.getName());
+            System.out.println("add new article "+newArticle.toJson());
         } catch (Exception e) {
             System.out.println(e);
         }
+        
         return newArticle;
     }
 
