@@ -106,15 +106,16 @@ public class PersistenceFacade {
     public Article createArticle(Article article) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
+        Article newArticle = article;
         try {
             tx.begin();
-            em.persist(article);
+            em.persist(newArticle);
             tx.commit();
-            System.out.println("add new article "+article.getName());
+            System.out.println("add new article "+newArticle.getName());
         } catch (Exception e) {
             System.out.println(e);
         }
-        return article;
+        return newArticle;
     }
 
     public Article deleteArticle(Article article) {

@@ -395,6 +395,8 @@ public class ShoppingListRessource {
                     response.setUser(facade.deleteUser(myJsonObject.getUser()));
                     break;
             }
+        }else{
+            response.setType("no Access");
         }
            try {
             JSONObject.put("Response", response.toJson());
