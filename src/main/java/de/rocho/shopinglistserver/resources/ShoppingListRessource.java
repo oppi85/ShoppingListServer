@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -28,7 +27,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.glassfish.grizzly.http.server.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,13 +37,6 @@ import org.json.JSONObject;
  */
 @Path("/shoppinglist")
 public class ShoppingListRessource {
-    
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String checkRunning(){
-       
-        return "Server läuft";
-    }
 
     /**
      *
@@ -57,7 +48,6 @@ public class ShoppingListRessource {
     public String createDummyDate() {
         CreateDB createDB;
         createDB = new CreateDB();
-        
         return "Data created";
     }
 
@@ -224,8 +214,6 @@ public class ShoppingListRessource {
         System.out.println(JSONObject.toString());
         return JSONObject.toString();
     }
-    
-    
     
     @GET
     @Path("/{id}")

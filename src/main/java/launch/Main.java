@@ -29,11 +29,9 @@ public class Main {
             BASE_URI = UriBuilder.fromUri("http://0.0.0.0/").port(port).build();
                        
         dbUri = System.getenv("DATABASE_URL") !=null ? new URI(System.getenv("DATABASE_URL")) : null;
-        
-        System.out.println("MAIN: Database URL. " + System.getenv("DATABASE_URL") + " :: " + dbUri);
       
         HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resConfig);
-        httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler(), "/test");
+        httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler(), "/test"); //TODOD: rename test
         
         httpServer.start();
         System.out.println("Server started on: " + BASE_URI);
