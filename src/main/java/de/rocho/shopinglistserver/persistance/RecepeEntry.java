@@ -24,8 +24,11 @@ public class RecepeEntry implements Serializable {
     @JoinColumn(unique = true)
     private Article article;
     
+    @ManyToOne
+    private Recepe recepe;
+    
     private long recepeID;
-
+    
     private int quantity;
 
     public long getRecepeID() {
@@ -34,6 +37,14 @@ public class RecepeEntry implements Serializable {
 
     public void setRecepeID(long recepeID) {
         this.recepeID = recepeID;
+    }
+
+    public Recepe getRecepe() {
+        return recepe;
+    }
+
+    public void setRecepe(Recepe recepe) {
+        this.recepe = recepe;
     }
 
     public Article getArticle() {
