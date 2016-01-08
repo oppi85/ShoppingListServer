@@ -562,7 +562,7 @@ public class PersistenceFacade {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         
-        Recepe recepe = findRecepe(recepeEntry.getRecepe().getId());
+        Recepe recepe = findRecepe(recepeEntry.getRecepeID());
         
             Article article = findArticle(recepeEntry.getArticle().getId());
             try {

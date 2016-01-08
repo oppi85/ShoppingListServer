@@ -24,17 +24,16 @@ public class RecepeEntry implements Serializable {
     @JoinColumn(unique = true)
     private Article article;
     
-    @ManyToOne
-    private Recepe recepe;
+    private long recepeID;
 
     private int quantity;
 
-    public Recepe getRecepe() {
-        return recepe;
+    public long getRecepeID() {
+        return recepeID;
     }
 
-    public void setRecepe(Recepe recepe) {
-        this.recepe = recepe;
+    public void setRecepeID(long recepeID) {
+        this.recepeID = recepeID;
     }
 
     public Article getArticle() {
@@ -90,6 +89,7 @@ public class RecepeEntry implements Serializable {
         JSONObject JSONObjectRecepeEntry = new JSONObject();
         JSONObjectRecepeEntry
             .put("id", id)
+            .put("recepeID", recepeID)
             .put("article", article.getName())
             .put("quantity", quantity);
 
