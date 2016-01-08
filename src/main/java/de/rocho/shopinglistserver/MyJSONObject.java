@@ -140,6 +140,8 @@ public class MyJSONObject {
             myJsonObject.put("listEntry", listEntry.toJson());
         if (article != null)
             myJsonObject.put("article", article.toJson());
+        if (recepe != null)
+            myJsonObject.put("recepe", recepe.toJson());
             
         myJsonObject
                 .put("type", type)

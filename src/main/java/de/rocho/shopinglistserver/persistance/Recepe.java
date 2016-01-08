@@ -1,6 +1,7 @@
 package de.rocho.shopinglistserver.persistance;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +30,7 @@ public class Recepe implements Serializable {
      
     @OneToMany(mappedBy = "recepe")
     @JoinColumn(nullable = true)
-    private List<RecepeEntry> recepeEntry;
+    private List<RecepeEntry> recepeEntry = new ArrayList<>();
 
     public AppUser getUser() {
         return user;
@@ -92,15 +93,19 @@ public class Recepe implements Serializable {
         JSONObject JSONObjectRecepe = new JSONObject();
         JSONArray JSONArrayListEntry = new JSONArray();
 
-        JSONObjectRecepe
-            .put("id", id)
-            .put("name", name);
-
-        for (RecepeEntry re : this.recepeEntry) {
-            JSONArrayListEntry.put(re.toJson());
+        try {
+            JSONObjectRecepe
+                .put("id",  id)
+                .put("name",  name);
+        if (recepeEntry.size()>0){
+            for (RecepeEntry re : this.recepeEntry) {
+                JSONArrayListEntry.put(re.toJson());
+            }
+            JSONObjectRecepe.put("listEntry",JSONArrayListEntry);
         }
-        JSONObjectRecepe.put("RecepeEntry", JSONArrayListEntry);
-
+        } catch (JSONException ex) {
+            Logger.getLogger(Recepe.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return JSONObjectRecepe;
     }
 }

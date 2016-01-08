@@ -60,8 +60,12 @@ public class ShoppingListRessource {
         Boolean bool = facade.checkAccess(myJsonObject);
         MyJSONObject response = new MyJSONObject();
         JSONObject JSONObject = new JSONObject();
-        
-        if(bool){
+        try {
+            System.out.println(""+myJsonObject.toJson());
+        } catch (JSONException ex) {
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            if(bool){
             switch (myJsonObject.getType()) {
                 case "article":
                     /**
@@ -92,6 +96,7 @@ public class ShoppingListRessource {
                     response.setType("listEntry");
                     response.setPrivateKey("serverKey");
                     response.setListEntry(facade.createEntry(myJsonObject.getListEntry()));
+                    System.out.println("shoppinglistressource: " + response.toString());
                     break;
                 case "recepe":
                     /**

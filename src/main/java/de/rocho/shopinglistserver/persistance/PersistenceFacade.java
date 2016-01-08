@@ -491,7 +491,9 @@ public class PersistenceFacade {
     public Recepe createRecepe(Recepe recepe) {        
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();        
+        
         try {
+            System.out.println(""+ recepe.toJson());
             tx.begin();
             em.persist(recepe);
             tx.commit();

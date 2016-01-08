@@ -101,8 +101,6 @@ public class ShoppingList implements Serializable {
         JSONArray JSONArrayListEntry = new JSONArray();
         JSONArray JSONArrayUser = new JSONArray();
 
-        JSONObject JSONObjectListEntry = new JSONObject();
-        JSONObject JSONObjectUserList = new JSONObject();
         try {
             JSONObjectShoppingList
                 .put("id",  id)
