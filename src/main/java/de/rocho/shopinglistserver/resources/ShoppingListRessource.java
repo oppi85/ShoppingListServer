@@ -482,4 +482,25 @@ public class ShoppingListRessource {
         System.out.println(JSONObjectArticlelist.toString());
         return JSONObjectArticlelist.toString();
     }
+    
+    @GET
+    @Path("/user/recepe/{publicKey}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getRecepeFromUser(@PathParam("publicKey") String publicKey) {
+        JSONObject JSONObjectArticlelist = new JSONObject();
+        JSONArray JSONArrayRecepe = new JSONArray();
+
+        try {
+            PersistenceFacade facade = new PersistenceFacade();
+            List<Recepe> recepeList = facade.findUser(publicKey).getRecepeList();
+            for (Recepe recepe : recepeList) {
+                JSONArrayRecepe.put(recepe.toJson());
+            }
+            JSONObjectArticlelist.put("Recepe", JSONArrayRecepe);
+        } catch (JSONException ex) {
+            Logger.getLogger(ShoppingListRessource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(JSONObjectArticlelist.toString());
+        return JSONObjectArticlelist.toString();
+    }
 }
