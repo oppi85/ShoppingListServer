@@ -96,7 +96,6 @@ public class ShoppingListRessource {
                     response.setType("listEntry");
                     response.setPrivateKey("serverKey");
                     response.setListEntry(facade.createEntry(myJsonObject.getListEntry()));
-                    System.out.println("shoppinglistressource: " + response.toString());
                     break;
                 case "recepe":
                     /**

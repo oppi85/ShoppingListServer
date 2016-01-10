@@ -96,13 +96,14 @@ public class Recepe implements Serializable {
         try {
             JSONObjectRecepe
                 .put("id",  id)
-                .put("name",  name);
-        if (recepeEntry.size()>0){
-            for (RecepeEntry re : this.recepeEntry) {
-                JSONArrayListEntry.put(re.toJson());
-            }
-            JSONObjectRecepe.put("listEntry",JSONArrayListEntry);
+                .put("name",  name)
+                .put("user", user.toJson());
+        
+        for (RecepeEntry re : this.recepeEntry) {
+            JSONArrayListEntry.put(re.toJson());
         }
+        JSONObjectRecepe.put("recepeEntry",JSONArrayListEntry);
+        
         } catch (JSONException ex) {
             Logger.getLogger(Recepe.class.getName()).log(Level.SEVERE, null, ex);
         }

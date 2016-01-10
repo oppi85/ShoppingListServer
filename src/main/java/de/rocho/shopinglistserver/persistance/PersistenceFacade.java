@@ -4,6 +4,7 @@ import de.rocho.shopinglistserver.MyJSONObject;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,6 +12,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import launch.Main;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PersistenceFacade {
@@ -266,7 +268,6 @@ public class PersistenceFacade {
                 user.getShoppingLists().add(sl);
                 em.merge(user);
                 tx.commit();
-                System.out.println("ShoppingList angelegt");
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -490,12 +491,15 @@ public class PersistenceFacade {
 //------ START RECEPE ---------
     public Recepe createRecepe(Recepe recepe) {        
         EntityManager em = FACTORY.createEntityManager();
-        EntityTransaction tx = em.getTransaction();        
+        EntityTransaction tx = em.getTransaction();
+        Query query  = em.createQuery("SELECT u FROM AppUser u WHERE u.id='"+recepe.getUser().getId()+"'");
+        AppUser user = (AppUser) query.getSingleResult();
         
         try {
-            System.out.println(""+ recepe.toJson());
             tx.begin();
             em.persist(recepe);
+            user.getRecepeList().add(recepe);
+            em.merge(user);
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
@@ -544,12 +548,16 @@ public class PersistenceFacade {
     public Recepe deleteRecepe(Recepe recepe) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-
+        Query userQuery = em.createQuery("SELECT u FROM AppUser u WHERE u.id='"+recepe.getUser().getId()+"'");
+        AppUser user = (AppUser) userQuery.getSingleResult();
+                
         for (RecepeEntry re : recepe.getRecepeEntry()) {
             deleteRecepeEntry(re);
         }
         try {
             tx.begin();
+            user.getRecepeList().remove(recepe);
+            em.merge(user);
             em.remove(em.merge(recepe));
             tx.commit();
         } catch (Exception e) {
@@ -565,20 +573,28 @@ public class PersistenceFacade {
         EntityTransaction tx = em.getTransaction();
         
         Recepe recepe = findRecepe(recepeEntry.getRecepeID());
+        Article article = findArticle(recepeEntry.getArticle().getId());
         
-            Article article = findArticle(recepeEntry.getArticle().getId());
-            try {
-                tx.begin();
-                em.persist(recepeEntry);
-                article.getRecepeEntrys().add(recepeEntry);
-                em.merge(article);
-                recepe.getRecepeEntry().add(recepeEntry);
-                em.merge(recepe);
-                tx.commit();
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        return recepeEntry;
+        RecepeEntry re = recepeEntry;
+        re.setArticle(article);
+        try {
+            System.out.println("RECEPE ENTRY " + re.toJson());
+        } catch (JSONException ex) {
+            Logger.getLogger(PersistenceFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            tx.begin();
+            em.persist(re);
+            article.getRecepeEntrys().add(re);
+            em.merge(article);
+            recepe.getRecepeEntry().add(re);
+            em.merge(recepe);
+            em.merge(re);
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return re;
     }
 
     public RecepeEntry findRecepeEntry(Long id) {

@@ -127,7 +127,7 @@ public class ListEntry implements Serializable {
         JSONObject jsonObjectListEntry = new JSONObject();
         jsonObjectListEntry
             .put("id", id)
-            .put("name",article.getName())
+            .put("article",article.getName())
             .put("quantity",quantity)
             .put("addDate",addDate)
             .put("buyDate", buyDate)

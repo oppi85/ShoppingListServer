@@ -32,14 +32,14 @@ public class ShoppingList implements Serializable {
 
     @OneToMany
     @JoinColumn(nullable = true)
-    private List<ListEntry> listEntry;
+    private List<ListEntry> listEntry = new ArrayList();
 
     public List<ListEntry> getListEntry() {
         return listEntry;
     }
 
     public void setListEntry(List<ListEntry> listEntry) {
-        this.listEntry = listEntry;
+        this.listEntry = listEntry ;
     }
 
     public void setName(String name) {
@@ -100,12 +100,11 @@ public class ShoppingList implements Serializable {
         JSONObject JSONObjectShoppingList = new JSONObject();
         JSONArray JSONArrayListEntry = new JSONArray();
         JSONArray JSONArrayUser = new JSONArray();
-
         try {
             JSONObjectShoppingList
-                .put("id",  id)
-                .put("name",  name)
-                .put("status",  status);
+                .put("id", id)
+                .put("name", name)
+                .put("status", status);
 
             for (ListEntry le : this.listEntry) {
                 JSONArrayListEntry.put(le.toJson());
@@ -113,7 +112,6 @@ public class ShoppingList implements Serializable {
             for (AppUser user : this.userList) {
                 JSONArrayUser.put(user.toJson());
             }
-
 
             JSONObjectShoppingList.put("listEntry",JSONArrayListEntry);
 
