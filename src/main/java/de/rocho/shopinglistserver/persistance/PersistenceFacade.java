@@ -113,7 +113,6 @@ public class PersistenceFacade {
             tx.begin();
             em.persist(newArticle);
             tx.commit();
-            System.out.println("add new article "+newArticle.toJson());
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -554,6 +553,7 @@ public class PersistenceFacade {
         for (RecepeEntry re : recepe.getRecepeEntry()) {
             deleteRecepeEntry(re);
         }
+        
         try {
             tx.begin();
             user.getRecepeList().remove(recepe);
@@ -577,11 +577,7 @@ public class PersistenceFacade {
         
         RecepeEntry re = recepeEntry;
         re.setArticle(article);
-        try {
-            System.out.println("RECEPE ENTRY " + re.toJson());
-        } catch (JSONException ex) {
-            Logger.getLogger(PersistenceFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         try {
             tx.begin();
             em.persist(re);
@@ -617,8 +613,13 @@ public class PersistenceFacade {
     public RecepeEntry deleteRecepeEntry(RecepeEntry recepeEntry) {
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
+        
+        Recepe recepe = findRecepe(recepeEntry.getRecepeID());
+        recepe.getRecepeEntry().remove(recepeEntry);
+        
         try {
             tx.begin();
+            em.merge(recepe);
             em.remove(em.merge(recepeEntry));
             tx.commit();
         } catch (Exception e) {
