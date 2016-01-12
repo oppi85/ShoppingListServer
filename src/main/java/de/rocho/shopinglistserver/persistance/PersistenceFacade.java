@@ -381,9 +381,8 @@ public class PersistenceFacade {
         Query query = em.createQuery("SELECT sl FROM ShoppingList sl WHERE sl.id='" + shoppingList.getId() + "'");
         ShoppingList tempShoppingList = (ShoppingList) query.getSingleResult();
 
-        if (shoppingList.getName() != null) {
+        if (shoppingList.getName() != null) 
             tempShoppingList.setName(shoppingList.getName());
-        }
         
         try {
             tx.begin();
@@ -407,6 +406,9 @@ public class PersistenceFacade {
         ListEntry le = listEntry;
         le.setArticle(article);
         le.setShoppingListID(shoppingList.getId());
+        
+        int status = shoppingList.getStatus();
+        shoppingList.setStatus(++status);
         
             try {
                 tx.begin();
@@ -440,12 +442,14 @@ public class PersistenceFacade {
     }
 
     public ListEntry deleteListEntry(ListEntry listEntry) {
-        
+        System.out.println("DELETE LISTENTRY");
         EntityManager em = FACTORY.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Query query = em.createQuery("SELECT sl FROM ShoppingList sl WHERE sl.id='"+listEntry.getShoppingListID()+"'");
         ShoppingList shoppingList = (ShoppingList) query.getSingleResult();
         shoppingList.getListEntry().remove(listEntry);
+        int status = shoppingList.getStatus();
+        shoppingList.setStatus(status--);
         try {
             tx.begin();
             em.merge(shoppingList);
@@ -463,6 +467,7 @@ public class PersistenceFacade {
         ListEntry listEntry = myJsonObject.getListEntry();
         Query query = em.createQuery("SELECT le from ListEntry le WHERE le.id='" + listEntry.getId() + "'");
         ListEntry tempListEntry = (ListEntry) query.getSingleResult();
+        ShoppingList shoppingList = findShoppingList(tempListEntry.getShoppingListID());
 
         if (listEntry.getArticle() != null) {
             tempListEntry.setArticle(listEntry.getArticle());
@@ -475,10 +480,17 @@ public class PersistenceFacade {
         }
         if (listEntry.getBought() != null) {
             tempListEntry.setBought(listEntry.getBought());
+            int status = shoppingList.getStatus();
+            if (tempListEntry.getBought()) {
+                shoppingList.setStatus(--status);
+            }else{
+                shoppingList.setStatus(++status);
+            }
         }
         try {
             tx.begin();
             em.merge(tempListEntry);
+            em.merge(shoppingList);
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
