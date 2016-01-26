@@ -4,7 +4,6 @@ import de.rocho.shopinglistserver.MyJSONObject;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,7 +11,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import launch.Main;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PersistenceFacade {
@@ -38,7 +36,6 @@ public class PersistenceFacade {
         }else{
             return Persistence.createEntityManagerFactory("ShoppingListPU");
         }
-            
     }
     
      public Boolean checkAccess(MyJSONObject myJsonObject){
@@ -49,7 +46,7 @@ public class PersistenceFacade {
         Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.id='"+myJsonObject.getUserID()+"'");
         try{
             databaseUser = (AppUser) query.getSingleResult();
-        
+            System.out.println(databaseUser.getName());
         ShoppingList sl;
         
         switch(type){
@@ -285,7 +282,7 @@ public class PersistenceFacade {
     public MyJSONObject addUserToList(MyJSONObject myJsonObject) {
         EntityManager em = FACTORY.createEntityManager();
         MyJSONObject response = new MyJSONObject();
-        
+        System.out.println("hier");
         EntityTransaction tx = em.getTransaction();
         ShoppingList shoppingList = myJsonObject.getShoppingList();
         Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.publicKey='" + shoppingList.getUserList().get(0).getPublicKey() + "'");
@@ -296,6 +293,7 @@ public class PersistenceFacade {
             response.setType("user");
             response.setPrivateKey("serverKey");
         try {
+            
             tx.begin();
             sl.getUserList().add(user);
             em.merge(sl);
@@ -413,7 +411,7 @@ public class PersistenceFacade {
             try {
                 tx.begin();
                 em.persist(le);
-                article.getListEntrys().add(le);
+                article.getListEntries().add(le);
                 em.merge(article);
                 shoppingList.getListEntry().add(le);
                 em.merge(shoppingList);
@@ -593,7 +591,7 @@ public class PersistenceFacade {
         try {
             tx.begin();
             em.persist(re);
-            article.getRecepeEntrys().add(re);
+            article.getRecepeEntries().add(re);
             em.merge(article);
             recepe.getRecepeEntry().add(re);
             em.merge(recepe);
@@ -662,73 +660,4 @@ public class PersistenceFacade {
         }
         return tempRecepeEntry;
     }
-
-//------ START STORE --------
-    public Store createStoreEntry(Store store) {
-        EntityManager em = FACTORY.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        
-            try {
-                tx.begin();
-                em.persist(store);
-                tx.commit();
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        return store;
-    }
-
-    public Store findStoreEntry(Long id) {
-        EntityManager em = FACTORY.createEntityManager();
-        Query query = em.createQuery("SELECT storeEntry FROM Store storeEntry WHERE storeEntry.id='" + id + "'");
-        Store store = (Store) query.getSingleResult();
-
-        return store;
-    }
-
-    public List<Store> findAllStoreEntries() {
-        EntityManager em = FACTORY.createEntityManager();
-        Query query = em.createQuery("SELECT storeEntry FROM Store storeEntry");
-        List<Store> store = query.getResultList();
-
-        return store;
-
-    }
-
-    public Store deleteStoreEntry(Store store) {
-        EntityManager em = FACTORY.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.remove(em.merge(store));
-            tx.commit();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return store;
-    }
-
-    public Store editStoreEntry(MyJSONObject myJsonObject) {
-        EntityManager em = FACTORY.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        Store store = myJsonObject.getStore();
-        Query query = em.createQuery("SELECT storeEntry FROM Store storeEntry WHERE .id='" + store.getId() + "'");
-        Store tempStoreEntry = (Store) query.getSingleResult();
-
-        if (store.getArticle() != null) {
-            tempStoreEntry.setArticle(store.getArticle());
-        }
-        if (store.getQuantity() != 0) {
-            tempStoreEntry.setQuantity(store.getQuantity());
-        }
-        try {
-            tx.begin();
-            em.merge(tempStoreEntry);
-            tx.commit();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return tempStoreEntry;
-    }
-//------ END STORE -------- 
 }

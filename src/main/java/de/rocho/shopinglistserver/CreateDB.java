@@ -6,7 +6,6 @@ import de.rocho.shopinglistserver.persistance.PersistenceFacade;
 import de.rocho.shopinglistserver.persistance.Recepe;
 import de.rocho.shopinglistserver.persistance.RecepeEntry;
 import de.rocho.shopinglistserver.persistance.ShoppingList;
-import de.rocho.shopinglistserver.persistance.Store;
 import de.rocho.shopinglistserver.persistance.AppUser;
 
 public class CreateDB {
@@ -34,7 +33,6 @@ public class CreateDB {
         ListEntry le1 = new ListEntry();
         ListEntry le2 = new ListEntry();
         ListEntry le3 = new ListEntry();
-        Store s;
         Recepe r;
         RecepeEntry re;
         
@@ -76,7 +74,6 @@ public class CreateDB {
         le.setArticle(a);
         le.setBuyDate("0");
         le.setQuantity(2);
-        le.setUser(u);
         le.setShoppingListID(sl.getId());
         le.setBought(false);
         pf.createEntry(le);
@@ -85,7 +82,6 @@ public class CreateDB {
         le1.setArticle(a1);
         le1.setBuyDate("0");
         le1.setQuantity(1);
-        le1.setUser(u);
         le1.setShoppingListID(sl.getId());
         le1.setBought(false);
         pf.createEntry(le1);
@@ -94,7 +90,6 @@ public class CreateDB {
         le2.setArticle(a2);
         le2.setBuyDate("0");
         le2.setQuantity(1);
-        le2.setUser(u2);
         le2.setShoppingListID(sl1.getId());
         le2.setBought(false);
         pf.createEntry(le2);
@@ -103,7 +98,6 @@ public class CreateDB {
         le3.setArticle(a1);
         le3.setBuyDate("0");
         le3.setQuantity(1);
-        le3.setUser(u1);
         le3.setShoppingListID(sl1.getId());
         le3.setBought(false);
         pf.createEntry(le3);

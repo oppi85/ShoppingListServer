@@ -5,7 +5,6 @@
     <class>de.rocho.shopinglistserver.persistance.ListEntry</class>
     <class>de.rocho.shopinglistserver.persistance.ShoppingList</class>
     <class>de.rocho.shopinglistserver.persistance.Recepe</class>
-    <class>de.rocho.shopinglistserver.persistance.Store</class>
     <class>de.rocho.shopinglistserver.persistance.Article</class>
     <class>de.rocho.shopinglistserver.persistance.RecepeEntry</class>
     <class>de.rocho.shopinglistserver.persistance.AppUser</class>

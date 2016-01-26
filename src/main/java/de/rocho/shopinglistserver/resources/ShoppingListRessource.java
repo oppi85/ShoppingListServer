@@ -14,7 +14,6 @@ import de.rocho.shopinglistserver.persistance.PersistenceFacade;
 import de.rocho.shopinglistserver.persistance.Recepe;
 import de.rocho.shopinglistserver.persistance.RecepeEntry;
 import de.rocho.shopinglistserver.persistance.ShoppingList;
-import de.rocho.shopinglistserver.persistance.Store;
 import de.rocho.shopinglistserver.persistance.AppUser;
 import java.util.List;
 import java.util.logging.Level;
@@ -118,16 +117,6 @@ public class ShoppingListRessource {
                     response.setPrivateKey("serverKey");
                     response.setRecepeEntry(facade.createRecepeEntry(myJsonObject.getRecepeEntry()));
                     break;
-                case "store":
-                    /**
-                     * {"type":"store", "userID":"LONG", "userID":"LONG", "privateKey":"STRING",
-                     *  "store":{"article":{"id":"LONG"}, "quantity":"INT"}
-                     * }
-                     * myJsonObject.userID = Recepe ownwing User id
-                     */response.setType("recepeEntry");
-                    response.setPrivateKey("serverKey");
-                    response.setStore(facade.createStoreEntry(myJsonObject.getStore()));
-                    break;
                 case "user":
                     /**
                      * {"type":"user", "userID":"LONG", "privateKey":"STRING",
@@ -181,10 +170,6 @@ public class ShoppingListRessource {
             case 5:
                 //
                 response.setRecepeEntry(facade.findRecepeEntry(id));
-                break;
-            case 6:
-                //{}
-               response.setStore(facade.findStoreEntry(id));
                 break;
             }
         try {
@@ -268,14 +253,6 @@ public class ShoppingListRessource {
                     
                     JSONObject.put("RecepeEntry", JSONArrayObject);
                     break;
-                case 6:
-                    List<Store> storeEntries = facade.findAllStoreEntries();
-                    for (Store s : storeEntries) {
-                        JSONArrayObject.put(s.toJson());
-                    }
-                    
-                    JSONObject.put("Store", JSONArrayObject);
-                    break;
                 case 7:
                     List<AppUser> users = facade.findAllUser();
                     for (AppUser u : users) {
@@ -324,10 +301,6 @@ public class ShoppingListRessource {
                 case "recepeEntry":
                     response.setType("recepeEntry");
                     response.setRecepeEntry(facade.editRecepeEntry(myJsonObject));
-                    break;
-                case "store":
-                    response.setType("store");
-                    response.setStore(facade.editStoreEntry(myJsonObject));
                     break;
                 case "user":
                     response.setType("user");
@@ -380,10 +353,6 @@ public class ShoppingListRessource {
                     response.setType("recepeEntry");
                     response.setRecepeEntry(facade.deleteRecepeEntry(myJsonObject.getRecepeEntry()));
                     break;
-                case "store":
-                    response.setType("store");
-                    response.setStore(facade.deleteStoreEntry(myJsonObject.getStore()));
-                    break;
                 case "user":
                     response.setType("user");
                     response.setUser(facade.deleteUser(myJsonObject.getUser()));
@@ -418,7 +387,7 @@ public class ShoppingListRessource {
         MyJSONObject response;
         JSONObject JSONObject = new JSONObject();
         Boolean bool = facade.checkAccess(myJsonObject);
-        
+        System.out.println(bool);
         /**
          * {"type":"shoppingList", "userID":"LONG", "privateKey":"STRING",
          *  "shoppingList":{"id": "LONG", "userList":[{"publicKey":"STRING"}]}

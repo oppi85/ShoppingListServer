@@ -28,14 +28,6 @@ public class AppUser implements Serializable {
     @GeneratedValue(generator="stacjatv_id_seq", strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(nullable = true)
-    private Store store;
-    
-    @OneToMany(mappedBy = "user")
-    @JoinColumn(nullable = true)
-    private List<ListEntry> listEntrys;
-
     @OneToMany(mappedBy = "user")
     @JoinColumn(nullable = true)
     private List<Recepe> recepeList;
@@ -49,22 +41,15 @@ public class AppUser implements Serializable {
      */
     @Column(unique = true)
     private String privateKey;
-    @Column(unique = true)
+    
     /*
      * publicKey to add user to lists 
      */
+    @Column(unique = true)
     private String publicKey;
     @Column(unique = true)
     private String name;
 
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
-    
     public List<Recepe> getRecepeList() {
         return recepeList;
     }
@@ -81,16 +66,8 @@ public class AppUser implements Serializable {
         this.publicKey = publicKey;
     }
 
-    public void setListEntrys(List<ListEntry> listEntrys) {
-        this.listEntrys = listEntrys;
-    }
-
     public void setShoppingLists(List<ShoppingList> shoppingLists) {
         this.shoppingLists = shoppingLists;
-    }
-
-    public List<ListEntry> getListEntrys() {
-        return listEntrys;
     }
 
     public List<ShoppingList> getShoppingLists() {

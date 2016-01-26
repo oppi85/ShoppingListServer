@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,11 +20,9 @@ public class ListEntry implements Serializable {
 
     @ManyToOne
     private Article article;
-    @ManyToOne
-    private AppUser user;
     
+    @OneToMany
     private long shoppingListID;
-
     private String addDate;
     private String buyDate;
     private int quantity;
@@ -43,14 +42,6 @@ public class ListEntry implements Serializable {
 
     public long getShoppingListID() {
         return shoppingListID;
-    }
-
-    public void setUser(AppUser user) {
-        this.user = user;
-    }
-
-    public AppUser getUser() {
-        return user;
     }
 
     public void setArticle(Article article) {

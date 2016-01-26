@@ -27,31 +27,28 @@ public class Article implements Serializable {
 
     @OneToMany(mappedBy = "article",cascade = CascadeType.REMOVE)
     @JoinColumn(nullable = true)
-    private List<ListEntry> listEntrys;
-    @OneToMany(mappedBy = "article")
+    private List<ListEntry> listEntries;
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     @JoinColumn(nullable = true)
-    private List<RecepeEntry> recepeEntrys;
-    @OneToOne(mappedBy = "article")
-    @JoinColumn(nullable = true)
-    private Store store;
-
-    public List<RecepeEntry> getRecepeEntrys() {
-        return recepeEntrys;
+    private List<RecepeEntry> recepeEntries;
+    
+    public List<RecepeEntry> getRecepeEntries() {
+        return recepeEntries;
     }
 
-    public void setRecepeEntrys(List<RecepeEntry> recepeEntrys) {
-        this.recepeEntrys = recepeEntrys;
+    public void setRecepeEntries(List<RecepeEntry> recepeEntries) {
+        this.recepeEntries = recepeEntries;
     }
 
     public Article() {
     }
 
-    public List<ListEntry> getListEntrys() {
-        return listEntrys;
+    public List<ListEntry> getListEntries() {
+        return listEntries;
     }
 
-    public void setListEntrys(List<ListEntry> listEntrys) {
-        this.listEntrys = listEntrys;
+    public void setListEntries(List<ListEntry> listEntries) {
+        this.listEntries = listEntries;
     }
 
     public Long getId() {
