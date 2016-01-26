@@ -21,7 +21,6 @@ public class ListEntry implements Serializable {
     @ManyToOne
     private Article article;
     
-    @OneToMany
     private long shoppingListID;
     private String addDate;
     private String buyDate;
